@@ -20,3 +20,8 @@ img.onload = () => {
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 };
+
+var player = {
+    x = 500
+    y = 500
+}
