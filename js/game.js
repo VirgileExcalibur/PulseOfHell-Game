@@ -20,3 +20,58 @@ img.onload = () => {
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 };
+
+var player = {
+  x: 0,
+  y: 0,         
+  width: 16,
+  height: 32,  
+  color: "green",  
+  speed: 6,
+  draw: function() {
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+};
+
+
+var boss ={
+  x: canvas.width / 0.7,   
+  y: canvas.height / 0.7,   
+  vx: 5,
+  vy: 2,
+  radius: 50,
+  color: "red",
+  draw: function () {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  },
+}
+
+var keys = {};
+document.addEventListener('keydown', function(e) {
+  keys[e.key] = true;
+});
+document.addEventListener('keyup', function(e) {
+  keys[e.key] = false;
+});
+
+function update() {
+  if (keys['q'] && player.x > 0) player.x -= player.speed;
+  if (keys['d'] && player.x + player.width < canvas.width) player.x += player.speed;
+  if (keys['z'] && player.y > 0) player.y -= player.speed;
+  if (keys['s'] && player.y + player.height < canvas.height) player.y += player.speed;
+}
+
+function draw() {
+  //ctx.clearRect(0, 0, canvas.width, canvas.height); // efface l’écran
+  update();          // met à jour la position du joueur
+  player.draw();     // dessine le joueur
+  boss.draw()
+  requestAnimationFrame(draw); // continue la boucle
+}
+
+draw();
