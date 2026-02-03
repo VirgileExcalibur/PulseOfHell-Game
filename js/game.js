@@ -20,17 +20,20 @@ img.onload = () => {
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 };
+var playerImg = new Image();
+playerImg.src = "../assets/textures/sprites/baby_chesse_front.png";
+
 
 var player = {
   x: 0,
   y: 0,         
-  width: 16,
-  height: 32,  
+  width: 64,
+  height: 64,  
   color: "green",  
   speed: 6,
   draw: function() {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.drawImage(playerImg, this.x, this.y, this.width, this.height);
+
   }
 };
 
@@ -67,11 +70,11 @@ function update() {
 }
 
 function draw() {
-  //ctx.clearRect(0, 0, canvas.width, canvas.height); // efface l’écran
-  update();          // met à jour la position du joueur
-  player.draw();     // dessine le joueur
+  ctx.clearRect(0, 0, canvas.width, canvas.height); 
+  update();          
+  player.draw();    
   boss.draw()
-  requestAnimationFrame(draw); // continue la boucle
+  requestAnimationFrame(draw); 
 }
 
 draw();
