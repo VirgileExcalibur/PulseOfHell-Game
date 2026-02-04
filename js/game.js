@@ -4,6 +4,9 @@ const ctx = canvas.getContext("2d");
 const img = new Image();
 img.src = "../assets/textures/background/tile_floor.png";
 
+const babyplum = new Image();
+babyplum.src = "../assets/textures/sprites/bosses/babyplum/babyplum.png"
+
 var playerImg_front1 = new Image();
 playerImg_front1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_front1.png";
 
@@ -89,8 +92,6 @@ var player = {
 };
 
 var boss ={
-  // radius: 50,
-  // color: "red",
   x: (window.innerWidth - 128) / 2,
   y: (window.innerHeight - 128) / 2,
   width: 128,
@@ -98,13 +99,18 @@ var boss ={
   direction: "front",
   attack: "False",
   draw: function () {
-    // ctx.beginPath();
-    // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-    // ctx.closePath();
-    // ctx.fillStyle = this.color;
-    // ctx.fill();
-    ctx.drawImage(playerImg_right1, this.x, this.y, this.width, this.height);
+    ctx.drawImage(babyplum, this.x, this.y, 64, 64);
   },
+}
+
+function shoot () {
+    console.log("shoot");
+    const speed = 5;
+    const delay = 7;
+    const damage = 1;
+    const bulletX = this.x + this.width / 2;
+    const bulletY = this.y;
+    this.bulletController.shoot (bulletX, bulletY, speed, damage, delay);
 }
 
 var keys = {};
@@ -143,16 +149,6 @@ function gameLoop() {
   player.draw();
   requestAnimationFrame(gameLoop);
 }
-// playerImg_back1.onload = () => {
-//   ctx.drawImage(
-//         playerImg_back1,
-//         0, 0,      // source X, Y
-//         32, 32,    // source width, height
-//         0, 0,      // destination X, Y
-//         32, 32     // destination width, height
-//     );
-// }
-
 
 let loaded = 0;
 [img, playerImg_front1].forEach(img => {
