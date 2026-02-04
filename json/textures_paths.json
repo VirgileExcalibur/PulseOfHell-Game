@@ -11,7 +11,7 @@
         "babyplum":{
             "dir": "../assets/textures/sprites/bosses/babyplum/",
             "filename_cut": "babyplum_",
-            "anim_list": ["front1", "front2", "back1", "back2", "left1", "left2", "right1", "right2"],
+            "anim_list": ["front", "back", "left", "right"],
             "format":".png"
         }
     },

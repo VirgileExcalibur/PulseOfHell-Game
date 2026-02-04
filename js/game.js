@@ -31,6 +31,8 @@ playerImg_right2.src = "../assets/textures/sprites/characters/baby_cheese/baby_c
 var playerImg_back2 = new Image();
 playerImg_back2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_back2.png";
 
+var angelstatue = new Image();
+angelstatue.src = "../assets/textures/sprites/angelstatue.png"
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -91,15 +93,16 @@ var player = {
   }
 };
 
-var boss ={
-  x: (window.innerWidth - 128) / 2,
-  y: (window.innerHeight - 128) / 2,
-  width: 128,
-  height: 128,
+var boss_size = 96;
+var boss = {
+  x: (window.innerWidth - boss_size) / 2,
+  y: (window.innerHeight - boss_size) / 2,
+  width: boss_size,
+  height: boss_size,
   direction: "front",
   attack: "False",
   draw: function () {
-    ctx.drawImage(babyplum, this.x, this.y, 64, 64);
+    ctx.drawImage(angelstatue, this.x, this.y, this.width, this.height);
   },
 }
 
