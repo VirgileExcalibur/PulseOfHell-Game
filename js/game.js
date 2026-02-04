@@ -50,6 +50,7 @@ var player = {
   height: player_size,
   speed: 6,
   direction: "front",
+  // This variable will be used when the player shoots, it modifies the animation for now
   attack: "False",
   draw: function() {
         if (this.direction == "left"){
@@ -94,6 +95,8 @@ var boss ={
   y: (window.innerHeight - 128) / 2,
   width: 128,
   height: 128,
+  direction: "front",
+  attack: "False",
   draw: function () {
     // ctx.beginPath();
     // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
@@ -129,6 +132,7 @@ function update() {
     player.y += player.speed;
     player.direction = "front";
   };
+  //Need to add player attack keys here, should be arrows of IJKL
 }
 
 
