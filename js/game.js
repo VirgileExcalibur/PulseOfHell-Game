@@ -16,6 +16,17 @@ playerImg_right1.src = "../assets/textures/sprites/baby_cheese_right1.png";
 var playerImg_back1 = new Image();
 playerImg_back1.src = "../assets/textures/sprites/baby_cheese_back1.png";
 
+var playerImg_front2 = new Image();
+playerImg_front2.src = "../assets/textures/sprites/baby_cheese_front2.png";
+
+var playerImg_left2 = new Image();
+playerImg_left2.src = "../assets/textures/sprites/baby_cheese_left2.png";
+
+var playerImg_right2 = new Image();
+playerImg_right2.src = "../assets/textures/sprites/baby_cheese_right2.png";
+
+var playerImg_back2 = new Image();
+playerImg_back2.src = "../assets/textures/sprites/baby_cheese_back2.png";
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -39,22 +50,42 @@ var player = {
   height: player_size,
   speed: 6,
   direction: "front",
+  attack: "False",
   draw: function() {
         if (this.direction == "left"){
-          ctx.drawImage(playerImg_left1, this.x, this.y, this.width, this.height);
+          if (this.attack == "True"){
+            ctx.drawImage(playerImg_left2, this.x, this.y, this.width, this.height);
+          }
+          else{
+            ctx.drawImage(playerImg_left1, this.x, this.y, this.width, this.height);
+          }
         }
         if (this.direction == "right"){
-          ctx.drawImage(playerImg_right1, this.x, this.y, this.width, this.height);
+          if (this.attack == "True"){
+            ctx.drawImage(playerImg_right2, this.x, this.y, this.width, this.height);
+          }
+          else{
+            ctx.drawImage(playerImg_right1, this.x, this.y, this.width, this.height);
+          }
         }
         if (this.direction == "front"){
-          ctx.drawImage(playerImg_front1, this.x, this.y, this.width, this.height);
+          if (this.attack == "True"){
+            ctx.drawImage(playerImg_front2, this.x, this.y, this.width, this.height);
+          }
+          else{
+            ctx.drawImage(playerImg_front1, this.x, this.y, this.width, this.height);
+          }
         }
         if (this.direction == "back"){
-          ctx.drawImage(playerImg_back1, this.x, this.y, this.width, this.height);
+          if (this.attack == "True"){
+            ctx.drawImage(playerImg_back2, this.x, this.y, this.width, this.height);
+          }
+          else{
+            ctx.drawImage(playerImg_back1, this.x, this.y, this.width, this.height);
+          }
         }
   }
 };
-
 
 var boss ={
   // radius: 50,
@@ -72,7 +103,6 @@ var boss ={
     ctx.drawImage(playerImg_right1, this.x, this.y, this.width, this.height);
   },
 }
-
 
 var keys = {};
 document.addEventListener('keydown', function(e) {
