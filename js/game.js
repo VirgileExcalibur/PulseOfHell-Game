@@ -21,8 +21,8 @@ function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  boss.x = canvas.width / 2;
-  boss.y = canvas.height / 2;
+  // boss.x = canvas.width / 2;
+  // boss.y = canvas.height / 2;
 }
 
 function drawBackground() {
@@ -31,11 +31,12 @@ function drawBackground() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+var player_size = 96;
 var player = {
   x: 0,
   y: 0,
-  width: 64,
-  height: 64,
+  width: player_size,
+  height: player_size,
   speed: 6,
   direction: "front",
   draw: function() {
@@ -56,14 +57,19 @@ var player = {
 
 
 var boss ={
-  radius: 50,
-  color: "red",
+  // radius: 50,
+  // color: "red",
+  x: (window.innerWidth - 128) / 2,
+  y: (window.innerHeight - 128) / 2,
+  width: 128,
+  height: 128,
   draw: function () {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-    ctx.closePath();
-    ctx.fillStyle = this.color;
-    ctx.fill();
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+    // ctx.closePath();
+    // ctx.fillStyle = this.color;
+    // ctx.fill();
+    ctx.drawImage(playerImg_right1, this.x, this.y, this.width, this.height);
   },
 }
 
