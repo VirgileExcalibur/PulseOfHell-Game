@@ -4,10 +4,16 @@ const ctx = canvas.getContext("2d");
 const img = new Image();
 img.src = "../assets/textures/background/tile_floor.png";
 
+var playerImg = new Image();
+playerImg.src = "../assets/textures/sprites/baby_chesse_front1.png";
+
+
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  drawBackground();
+
+  boss.x = canvas.width / 2;
+  boss.y = canvas.height / 2;
 }
 
 function drawBackground() {
@@ -20,8 +26,6 @@ img.onload = () => {
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 };
-var playerImg = new Image();
-playerImg.src = "../assets/textures/sprites/baby_chesse_front.png";
 
 
 var player = {
@@ -39,10 +43,6 @@ var player = {
 
 
 var boss ={
-  x: canvas.width / 0.7,   
-  y: canvas.height / 0.7,   
-  vx: 5,
-  vy: 2,
   radius: 50,
   color: "red",
   draw: function () {
@@ -53,6 +53,7 @@ var boss ={
     ctx.fill();
   },
 }
+
 
 var keys = {};
 document.addEventListener('keydown', function(e) {
