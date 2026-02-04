@@ -4,8 +4,17 @@ const ctx = canvas.getContext("2d");
 const img = new Image();
 img.src = "../assets/textures/background/tile_floor.png";
 
-var playerImg = new Image();
-playerImg.src = "../assets/textures/sprites/baby_chesse_front1.png";
+var playerImg_front1 = new Image();
+playerImg_front1.src = "../assets/textures/sprites/baby_cheese_front1.png";
+
+var playerImg_left1 = new Image();
+playerImg_left1.src = "../assets/textures/sprites/baby_cheese_left1.png";
+
+var playerImg_right1 = new Image();
+playerImg_right1.src = "../assets/textures/sprites/baby_cheese_right1.png";
+
+var playerImg_back1 = new Image();
+playerImg_back1.src = "../assets/textures/sprites/baby_cheese_back1.png";
 
 
 function resizeCanvas() {
@@ -22,22 +31,26 @@ function drawBackground() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-img.onload = () => {
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
-};
-
-
 var player = {
   x: 0,
-  y: 0,         
+  y: 0,
   width: 64,
-  height: 64,  
-  color: "green",  
+  height: 64,
   speed: 6,
+  direction: "front",
   draw: function() {
-        ctx.drawImage(playerImg, this.x, this.y, this.width, this.height);
-
+        if (this.direction == "left"){
+          ctx.drawImage(playerImg_left1, this.x, this.y, this.width, this.height);
+        }
+        if (this.direction == "right"){
+          ctx.drawImage(playerImg_right1, this.x, this.y, this.width, this.height);
+        }
+        if (this.direction == "front"){
+          ctx.drawImage(playerImg_front1, this.x, this.y, this.width, this.height);
+        }
+        if (this.direction == "back"){
+          ctx.drawImage(playerImg_back1, this.x, this.y, this.width, this.height);
+        }
   }
 };
 
@@ -64,18 +77,42 @@ document.addEventListener('keyup', function(e) {
 });
 
 function update() {
-  if (keys['q'] && player.x > 0) player.x -= player.speed;
-  if (keys['d'] && player.x + player.width < canvas.width) player.x += player.speed;
-  if (keys['z'] && player.y > 0) player.y -= player.speed;
-  if (keys['s'] && player.y + player.height < canvas.height) player.y += player.speed;
+  if (keys['q'] && player.x > 0) {
+    player.x -= player.speed;
+    player.direction = "left";
+  };
+  if (keys['d'] && player.x + player.width < canvas.width) {
+    player.x += player.speed;
+    player.direction = "right";
+  };
+  if (keys['z'] && player.y > 0) {
+    player.y -= player.speed;
+    player.direction = "back";
+  };
+  if (keys['s'] && player.y + player.height < canvas.height) {
+    player.y += player.speed;
+    player.direction = "front";
+  };
 }
 
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height); 
-  update();          
-  player.draw();    
-  boss.draw()
-  requestAnimationFrame(draw); 
+
+function gameLoop() {
+  drawBackground();
+  update();
+  boss.draw();
+  player.draw();
+  requestAnimationFrame(gameLoop);
 }
 
-draw();
+
+let loaded = 0;
+[img, playerImg_front1].forEach(img => {
+  img.onload = () => {
+    loaded++;
+    if (loaded === 2) {
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+      gameLoop();
+    }
+  };
+});
