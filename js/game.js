@@ -5,28 +5,28 @@ const img = new Image();
 img.src = "../assets/textures/background/tile_floor.png";
 
 var playerImg_front1 = new Image();
-playerImg_front1.src = "../assets/textures/sprites/baby_cheese_front1.png";
+playerImg_front1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_front1.png";
 
 var playerImg_left1 = new Image();
-playerImg_left1.src = "../assets/textures/sprites/baby_cheese_left1.png";
+playerImg_left1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_left1.png";
 
 var playerImg_right1 = new Image();
-playerImg_right1.src = "../assets/textures/sprites/baby_cheese_right1.png";
+playerImg_right1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_right1.png";
 
 var playerImg_back1 = new Image();
-playerImg_back1.src = "../assets/textures/sprites/baby_cheese_back1.png";
+playerImg_back1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_back1.png";
 
 var playerImg_front2 = new Image();
-playerImg_front2.src = "../assets/textures/sprites/baby_cheese_front2.png";
+playerImg_front2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_front2.png";
 
 var playerImg_left2 = new Image();
-playerImg_left2.src = "../assets/textures/sprites/baby_cheese_left2.png";
+playerImg_left2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_left2.png";
 
 var playerImg_right2 = new Image();
-playerImg_right2.src = "../assets/textures/sprites/baby_cheese_right2.png";
+playerImg_right2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_right2.png";
 
 var playerImg_back2 = new Image();
-playerImg_back2.src = "../assets/textures/sprites/baby_cheese_back2.png";
+playerImg_back2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_back2.png";
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -143,6 +143,15 @@ function gameLoop() {
   player.draw();
   requestAnimationFrame(gameLoop);
 }
+// playerImg_back1.onload = () => {
+//   ctx.drawImage(
+//         playerImg_back1,
+//         0, 0,      // source X, Y
+//         32, 32,    // source width, height
+//         0, 0,      // destination X, Y
+//         32, 32     // destination width, height
+//     );
+// }
 
 
 let loaded = 0;
