@@ -4,6 +4,9 @@ const ctx = canvas.getContext("2d");
 const img = new Image();
 img.src = "../assets/textures/background/tile_floor.png";
 
+const floor_wood = new Image();
+floor_wood.src = "../assets/textures/background/"
+
 const babyplum = new Image();
 babyplum.src = "../assets/textures/sprites/bosses/babyplum/babyplum.png"
 
@@ -33,6 +36,17 @@ playerImg_back2.src = "../assets/textures/sprites/characters/baby_cheese/baby_ch
 
 var angelstatue = new Image();
 angelstatue.src = "../assets/textures/sprites/angelstatue.png"
+
+var babyplum_front1 = new Image();
+babyplum_front1.src = "../assets/textures/sprites/bosses/babyplum/babyplum_front1.png"
+
+var tearBalloonBrimstone = new Image();
+tearBalloonBrimstone.src = "../assets/textures/effects/tears/tears_balloon_brimstone/tears_balloon_brimstone_8.png"
+
+tearBalloonBrimstone.onload = () => {
+  console.log("image balle chargée");
+};
+
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -47,6 +61,8 @@ function drawBackground() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+let gameOver = false;
+
 var player_size = 96;
 var player = {
   x: 0,
@@ -54,9 +70,13 @@ var player = {
   width: player_size,
   height: player_size,
   speed: 6,
+  hitbox: 64,
   direction: "front",
   // This variable will be used when the player shoots, it modifies the animation for now
   attack: "False",
+  hit: "False",
+  hp: 5,
+  isDead: false,
   draw: function() {
         if (this.direction == "left"){
           if (this.attack == "True"){
@@ -93,28 +113,63 @@ var player = {
   }
 };
 
-var boss_size = 96;
+var boss_size = 192;
 var boss = {
   x: (window.innerWidth - boss_size) / 2,
   y: (window.innerHeight - boss_size) / 2,
   width: boss_size,
   height: boss_size,
+  bullets: [],
   direction: "front",
   attack: "False",
+  shootCooldown: 0,
   draw: function () {
-    ctx.drawImage(angelstatue, this.x, this.y, this.width, this.height);
+    ctx.drawImage(babyplum_front1, this.x, this.y, this.width, this.height);
   },
+  shoot: function (targetX, targetY) {
+    const centerX = this.x + this.width / 2;
+    const centerY = this.y + this.height / 2;
+
+    const angle = Math.atan2(targetY - centerY, targetX - centerX);
+
+    const speed = 6;
+
+    this.bullets.push({
+      x: centerX,
+      y: centerY,
+      dx: Math.cos(angle) * speed,
+      dy: Math.sin(angle) * speed,
+      width: 48,
+      height: 48,
+    });
+  },
+
+  updateBullets: function() {
+    for (let i = this.bullets.length - 1; i >= 0; i--) {
+      let bullet = this.bullets[i];
+
+      bullet.x += bullet.dx;
+      bullet.y += bullet.dy;
+
+      if (
+        bullet.x < 0 ||
+        bullet.x > canvas.width ||
+        bullet.y < 0 ||
+        bullet.y > canvas.height
+      ) {
+        this.bullets.splice(i, 1);
+      }
+    }
+  },
+  
+  drawBullets: function() {
+    this.bullets.forEach(bullet => {
+      ctx.drawImage(tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
+    });
+  }
 }
 
-function shoot () {
-    console.log("shoot");
-    const speed = 5;
-    const delay = 7;
-    const damage = 1;
-    const bulletX = this.x + this.width / 2;
-    const bulletY = this.y;
-    this.bulletController.shoot (bulletX, bulletY, speed, damage, delay);
-}
+
 
 var keys = {};
 document.addEventListener('keydown', function(e) {
@@ -123,6 +178,32 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('keyup', function(e) {
   keys[e.key] = false;
 });
+
+function checkCollisions() {
+  boss.bullets.forEach((bullet, index) => {
+    
+    const pLeft = player.x;
+    const pRight = player.x + player.hitbox;
+    const pTop = player.y;
+    const pBottom = player.y + player.hitbox;
+
+    const bLeft = bullet.x;
+    const bRight = bullet.x + bullet.width;
+    const bTop = bullet.y;
+    const bBottom = bullet.y + bullet.height;
+
+    const isColliding = pLeft < bRight && pRight > bLeft && pTop < bBottom && pBottom > bTop;
+
+    if (isColliding) {
+      boss.bullets.splice(index, 1);
+      player.hp -= 1;        
+      
+      if (player.hp <= 0) {
+        player.isDead = true;
+      }
+    }
+  });
+}
 
 function update() {
   if (keys['q'] && player.x > 0) {
@@ -141,17 +222,36 @@ function update() {
     player.y += player.speed;
     player.direction = "front";
   };
-  //Need to add player attack keys here, should be arrows of IJKL
+  //Need to add player attack keys here, should be arrows or IJKL
+  if (boss.shootCooldown <= 0) {
+    const spreadX = (Math.random() - 0.5) * 275; 
+    const spreadY = (Math.random() - 0.5) * 275;
+    //boss.shoot(player.x + player.width + Math.random (7,15) / 2, player.y + player.height + Math.random(7,15)/ 2); 
+    boss.shoot(player.x + spreadX + Math.random(5,15), player.y + spreadY + Math.random(5,15)); 
+    boss.shootCooldown = 14; 
+  } else {
+      boss.shootCooldown--;
+  }
+  boss.updateBullets();
+  if (player.hp == 0){
+    console.log("game over !")
+  }
 }
 
 
 function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   drawBackground();
   update();
   boss.draw();
+  boss.drawBullets();
   player.draw();
+  boss.updateBullets(); 
+  checkCollisions();
   requestAnimationFrame(gameLoop);
 }
+
 
 let loaded = 0;
 [img, playerImg_front1].forEach(img => {
