@@ -4,11 +4,8 @@ const ctx = canvas.getContext("2d");
 const img = new Image();
 img.src = "../assets/textures/background/tile_floor.png";
 
-const floor_wood = new Image();
-floor_wood.src = "../assets/textures/background/"
-
-const babyplum = new Image();
-babyplum.src = "../assets/textures/sprites/bosses/babyplum/babyplum.png"
+const water_dank = new Image();
+water_dank.src = "../assets/textures/background/water_dank.png"
 
 var playerImg_front1 = new Image();
 playerImg_front1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_front1.png";
@@ -56,7 +53,7 @@ function resizeCanvas() {
 }
 
 function drawBackground() {
-  const pattern = ctx.createPattern(img, "repeat");
+  const pattern = ctx.createPattern(water_dank, "repeat");
   ctx.fillStyle = pattern;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
@@ -241,7 +238,6 @@ function update() {
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   drawBackground();
   update();
   boss.draw();
@@ -254,7 +250,7 @@ function gameLoop() {
 
 
 let loaded = 0;
-[img, playerImg_front1].forEach(img => {
+[water_dank, playerImg_front1].forEach(img => {
   img.onload = () => {
     loaded++;
     if (loaded === 2) {
