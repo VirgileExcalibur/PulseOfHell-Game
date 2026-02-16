@@ -52,6 +52,9 @@ function resizeCanvas() {
   // boss.y = canvas.height / 2;
 }
 
+function empty() {
+  a = 1;
+}
 function drawBackground() {
   const pattern = ctx.createPattern(water_dank, "repeat");
   ctx.fillStyle = pattern;
