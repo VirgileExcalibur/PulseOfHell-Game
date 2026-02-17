@@ -81,7 +81,7 @@ var player = {
   // This variable will be used when the player shoots, it modifies the animation for now
   attack: "False",
   hit: "False",
-  hp: 5,
+  hp: 10,
   isDead: false,
   draw: function() {
         if (this.direction == "left"){
@@ -211,13 +211,15 @@ function drawHearts(){
   if (player.hp % 2 == 1){
     var isHalfHeart = 1;
   }
-  for (var i = 0; i < player.hp; i++){
+  var tempPlayerHP = ((player.hp - 1) / 2)
+  for (var i = 0; i < tempPlayerHP; i++){
     ctx.drawImage(heartFull, 1 + i * 48, 1, 32, 32);
   }
   if (isHalfHeart == 1){
-    ctx.drawImage(heartHalf, player.hp * 48, 1, 32, 32);
+    ctx.drawImage(heartHalf, 1 + tempPlayerHP * 48, 1, 32, 32);
   }
 }
+
 function update() {
   if (keys['q'] && player.x > 0) {
     player.x -= player.speed;
