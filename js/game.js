@@ -42,6 +42,12 @@ babyplum_front1.src = "../assets/textures/sprites/bosses/babyplum/babyplum_front
 const tearBalloonBrimstone = new Image();
 tearBalloonBrimstone.src = "../assets/textures/effects/tears/tears_balloon_brimstone/tears_balloon_brimstone_8.png"
 
+const heartFull = new Image();
+heartFull.src = "../assets/textures/UI/container_heart/heart_full.png"
+
+const heartHalf = new Image();
+heartHalf.src = "../assets/textures/UI/container_heart/heart_half.png"
+
 // tearBalloonBrimstone.onload = () => {
 //   console.log("image balle chargée");
 // };
@@ -123,7 +129,6 @@ var boss = {
   direction: "front",
   attack: "False",
   shootCooldown: 0,
-  
   draw: function () {
     ctx.drawImage(babyplum_front1, this.x, this.y, this.width, this.height);
   },
@@ -168,8 +173,6 @@ var boss = {
   }
 }
 
-
-
 var keys = {};
 document.addEventListener('keydown', function(e) {
   keys[e.key] = true;
@@ -195,7 +198,7 @@ function checkCollisions() {
 
     if (isColliding) {
       boss.bullets.splice(index, 1);
-      player.hp -= 1;        
+      player.hp -= 1; //Removes only half a heart        
       
       if (player.hp <= 0) {
         player.isDead = true;
@@ -204,7 +207,17 @@ function checkCollisions() {
   });
 }
 
-
+function drawHearts(){
+  if (player.hp % 2 == 1){
+    var isHalfHeart = 1;
+  }
+  for (var i = 0; i < player.hp; i++){
+    ctx.drawImage(heartFull, 1 + i * 48, 1, 32, 32);
+  }
+  if (isHalfHeart == 1){
+    ctx.drawImage(heartHalf, player.hp * 48, 1, 32, 32);
+  }
+}
 function update() {
   if (keys['q'] && player.x > 0) {
     player.x -= player.speed;
@@ -224,7 +237,7 @@ function update() {
   };
   //Need to add player attack keys here, should be arrows or IJKL
   if (boss.shootCooldown <= 0) {
-    const spreadX = (Math.random() - 0.5) * 275; 
+    const spreadX = (Math.random() - 0.5) * 275;
     const spreadY = (Math.random() - 0.5) * 275;
     //boss.shoot(player.x + player.width + Math.random (7,15) / 2, player.y + player.height + Math.random(7,15)/ 2); 
     boss.shoot(player.x + spreadX + Math.random(5,15), player.y + spreadY + Math.random(5,15)); 
@@ -233,10 +246,13 @@ function update() {
       boss.shootCooldown--;
   }
   boss.updateBullets();
+
+  //Checks if the players is dead
   if (player.hp == 0){
-    
-    console.log("game over !")
+    player.gameOver = 1;
   }
+
+  //Pause function
   if (keys['Escape']) {
     if (paused == 1){
       paused = 0;
@@ -251,8 +267,13 @@ function update() {
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBackground();
-  if (paused == 0){
+  
+  if (player.gameOver == 1) {
+    console.log("game over !");
+  }
+  else {
     update();
+    drawHearts();
     boss.draw();
     boss.drawBullets();
     player.draw();
@@ -263,11 +284,12 @@ function gameLoop() {
 }
 
 
-let loaded = 0;
-[water_dank, playerImg_front1].forEach(img => {
+var loaded = 0;
+[water_dank, playerImg_front1, babyplum_front1].forEach(img => {
   img.onload = () => {
     loaded++;
-    if (loaded === 2) {
+    //Checks if all required images could be loaded, if not, the canvas is whitee
+    if (loaded == 3) {
       resizeCanvas();
       window.addEventListener("resize", resizeCanvas);
       gameLoop();
