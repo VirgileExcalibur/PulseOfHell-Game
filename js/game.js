@@ -215,8 +215,8 @@ function checkCollisions() {
   });
 }
 
-const playerHpBackup = player.hp;
 
+const playerHpBackup = player.hp;
 function drawHearts(){
   if (player.hp % 2 == 1){
     var isHalfHeart = 1;
@@ -230,18 +230,23 @@ function drawHearts(){
   }
 }
 
-//test to draw empty containers
 function drawEmptyHearts(){
   var isHalfHeart = 0;
+  var nbEmpty = playerHpBackup - player.hp;
   if (player.hp % 2 == 1){
     isHalfHeart = 1;
   }
   if (playerHpBackup - player.hp == 0){
     console.log("No empty containers to draw!");
   }
+  if (isHalfHeart != 1){
+    for (var i = 0; i < nbEmpty / 2; i++){
+      ctx.drawImage(heartEmpty, 48 * (player.hp / 2) + i * 48 , 1, 32, 32);
+    }
+  }
   else{
-    for (var i = 0; i < playerHpBackup - player.hp - isHalfHeart; i++){
-      ctx.drawImage(heartEmpty, (playerHpBackup + i) * 48, 1, 32, 32);
+    for (var i = 0; i < nbEmpty - heartEmpty / 2; i++){
+      ctx.drawImage(heartEmpty, 48 * (player.hp - 1 / 2) + i * 48 , 1, 32, 32);
     }
   }
 }
