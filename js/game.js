@@ -1,3 +1,5 @@
+// import * "assets_loader.js";
+
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
@@ -7,42 +9,42 @@ img.src = "../assets/textures/background/tile_floor.png";
 const water_dank = new Image();
 water_dank.src = "../assets/textures/background/water_dank.png"
 
-var playerImg_front1 = new Image();
+const playerImg_front1 = new Image();
 playerImg_front1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_front1.png";
 
-var playerImg_left1 = new Image();
+const playerImg_left1 = new Image();
 playerImg_left1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_left1.png";
 
-var playerImg_right1 = new Image();
+const playerImg_right1 = new Image();
 playerImg_right1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_right1.png";
 
-var playerImg_back1 = new Image();
+const playerImg_back1 = new Image();
 playerImg_back1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_back1.png";
 
-var playerImg_front2 = new Image();
+const playerImg_front2 = new Image();
 playerImg_front2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_front2.png";
 
-var playerImg_left2 = new Image();
+const playerImg_left2 = new Image();
 playerImg_left2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_left2.png";
 
-var playerImg_right2 = new Image();
+const playerImg_right2 = new Image();
 playerImg_right2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_right2.png";
 
-var playerImg_back2 = new Image();
+const playerImg_back2 = new Image();
 playerImg_back2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_back2.png";
 
-var angelstatue = new Image();
+const angelstatue = new Image();
 angelstatue.src = "../assets/textures/sprites/angelstatue.png"
 
-var babyplum_front1 = new Image();
+const babyplum_front1 = new Image();
 babyplum_front1.src = "../assets/textures/sprites/bosses/babyplum/babyplum_front1.png"
 
-var tearBalloonBrimstone = new Image();
+const tearBalloonBrimstone = new Image();
 tearBalloonBrimstone.src = "../assets/textures/effects/tears/tears_balloon_brimstone/tears_balloon_brimstone_8.png"
 
-tearBalloonBrimstone.onload = () => {
-  console.log("image balle chargée");
-};
+// tearBalloonBrimstone.onload = () => {
+//   console.log("image balle chargée");
+// };
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -52,9 +54,6 @@ function resizeCanvas() {
   // boss.y = canvas.height / 2;
 }
 
-function empty() {
-  a = 1;
-}
 function drawBackground() {
   const pattern = ctx.createPattern(water_dank, "repeat");
   ctx.fillStyle = pattern;
@@ -62,6 +61,7 @@ function drawBackground() {
 }
 
 let gameOver = false;
+var paused = false;
 
 var player_size = 96;
 var player = {
@@ -123,16 +123,15 @@ var boss = {
   direction: "front",
   attack: "False",
   shootCooldown: 0,
+  
   draw: function () {
     ctx.drawImage(babyplum_front1, this.x, this.y, this.width, this.height);
   },
   shoot: function (targetX, targetY) {
     const centerX = this.x + this.width / 2;
     const centerY = this.y + this.height / 2;
-
     const angle = Math.atan2(targetY - centerY, targetX - centerX);
-
-    const speed = 6;
+    var speed = 6;
 
     this.bullets.push({
       x: centerX,
@@ -145,8 +144,8 @@ var boss = {
   },
 
   updateBullets: function() {
-    for (let i = this.bullets.length - 1; i >= 0; i--) {
-      let bullet = this.bullets[i];
+    for (var i = this.bullets.length - 1; i >= 0; i--) {
+      var bullet = this.bullets[i];
 
       bullet.x += bullet.dx;
       bullet.y += bullet.dy;
@@ -205,6 +204,7 @@ function checkCollisions() {
   });
 }
 
+
 function update() {
   if (keys['q'] && player.x > 0) {
     player.x -= player.speed;
@@ -234,7 +234,16 @@ function update() {
   }
   boss.updateBullets();
   if (player.hp == 0){
+    
     console.log("game over !")
+  }
+  if (keys['Escape']) {
+    if (paused == 1){
+      paused = 0;
+    }
+    else{
+      paused = 1;
+    }
   }
 }
 
@@ -242,13 +251,15 @@ function update() {
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBackground();
-  update();
-  boss.draw();
-  boss.drawBullets();
-  player.draw();
-  boss.updateBullets(); 
-  checkCollisions();
-  requestAnimationFrame(gameLoop);
+  if (paused == 0){
+    update();
+    boss.draw();
+    boss.drawBullets();
+    player.draw();
+    boss.updateBullets(); 
+    checkCollisions();
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 
