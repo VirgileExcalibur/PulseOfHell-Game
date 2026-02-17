@@ -83,8 +83,10 @@ var player = {
   y: 0,
   width: player_size,
   height: player_size,
-  speed: 6,
-  hitbox: 64,
+  speed: 5,
+  // base : 68x92
+  hitbox_x:56,
+  hitbox_y:86,
   direction: "front",
   // This variable will be used when the player shoots, it modifies the animation for now
   attack: "False",
@@ -193,9 +195,9 @@ function checkCollisions() {
   boss.bullets.forEach((bullet, index) => {
     
     const pLeft = player.x;
-    const pRight = player.x + player.hitbox;
+    const pRight = player.x + player.hitbox_x;
     const pTop = player.y;
-    const pBottom = player.y + player.hitbox;
+    const pBottom = player.y + player.hitbox_y;
 
     const bLeft = bullet.x;
     const bRight = bullet.x + bullet.width;
@@ -206,7 +208,7 @@ function checkCollisions() {
 
     if (isColliding) {
       boss.bullets.splice(index, 1);
-      player.hp -= 1; //Removes only half a heart        
+      player.hp -= 1; //Removes only half a heart   
       
       if (player.hp <= 0) {
         player.isDead = true;
@@ -233,21 +235,26 @@ function drawHearts(){
 function drawEmptyHearts(){
   var isHalfHeart = 0;
   var nbEmpty = playerHpBackup - player.hp;
+  
   if (player.hp % 2 == 1){
     isHalfHeart = 1;
+    console.log("Is Half" + isHalfHeart)
   }
+
   if (playerHpBackup - player.hp == 0){
     console.log("No empty containers to draw!");
   }
   if (isHalfHeart != 1){
     for (var i = 0; i < nbEmpty / 2; i++){
+      console.log("draw empty heart " + i)
       ctx.drawImage(heartEmpty, 48 * (player.hp / 2) + i * 48 , 1, 32, 32);
     }
   }
-  else{
-    for (var i = 0; i < nbEmpty - heartEmpty / 2; i++){
+  if (isHalfHeart == 1){
+    for (var i = 0; i < nbEmpty - player.hp / 2; i++){
       ctx.drawImage(heartEmpty, 48 * (player.hp - 1 / 2) + i * 48 , 1, 32, 32);
     }
+    console.log("Trying to draw empty");
   }
 }
 
@@ -305,12 +312,14 @@ function gameLoop() {
   }
   else {
     update();
-    drawHearts();
-    drawEmptyHearts();
+    // drawHearts();
+    // drawEmptyHearts();
     boss.draw();
     boss.drawBullets();
     player.draw();
     boss.updateBullets(); 
+    drawHearts();
+    drawEmptyHearts();
     checkCollisions();
     requestAnimationFrame(gameLoop);
   }
