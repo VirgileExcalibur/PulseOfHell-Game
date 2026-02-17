@@ -1,5 +1,3 @@
-// import * "assets_loader.js";
-
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
@@ -8,6 +6,9 @@ img.src = "../assets/textures/background/tile_floor.png";
 
 const water_dank = new Image();
 water_dank.src = "../assets/textures/background/water_dank.png"
+
+const minecraft_Planks = new Image();
+minecraft_Planks.src = "../assets/textures/background/wood.png"
 
 const playerImg_front1 = new Image();
 playerImg_front1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_front1.png";
@@ -33,6 +34,7 @@ playerImg_right2.src = "../assets/textures/sprites/characters/baby_cheese/baby_c
 const playerImg_back2 = new Image();
 playerImg_back2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_back2.png";
 
+//Unused
 const angelstatue = new Image();
 angelstatue.src = "../assets/textures/sprites/angelstatue.png"
 
@@ -48,6 +50,9 @@ heartFull.src = "../assets/textures/UI/container_heart/heart_full.png"
 const heartHalf = new Image();
 heartHalf.src = "../assets/textures/UI/container_heart/heart_half.png"
 
+const heartEmpty = new Image();
+heartEmpty.src = "../assets/textures/UI/container_heart/heart_empty.png"
+
 // tearBalloonBrimstone.onload = () => {
 //   console.log("image balle chargée");
 // };
@@ -60,13 +65,16 @@ function resizeCanvas() {
   // boss.y = canvas.height / 2;
 }
 
+
+
 function drawBackground() {
-  const pattern = ctx.createPattern(water_dank, "repeat");
+  //CHANGE THE BACKGROUND TEXTURE HERE
+  const pattern = ctx.createPattern(minecraft_Planks, "repeat");
   ctx.fillStyle = pattern;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-let gameOver = false;
+var gameOver = false;
 var paused = false;
 
 var player_size = 96;
@@ -207,6 +215,8 @@ function checkCollisions() {
   });
 }
 
+const playerHpBackup = player.hp;
+
 function drawHearts(){
   if (player.hp % 2 == 1){
     var isHalfHeart = 1;
@@ -217,6 +227,22 @@ function drawHearts(){
   }
   if (isHalfHeart == 1){
     ctx.drawImage(heartHalf, 1 + tempPlayerHP * 48, 1, 32, 32);
+  }
+}
+
+//test to draw empty containers
+function drawEmptyHearts(){
+  var isHalfHeart = 0;
+  if (player.hp % 2 == 1){
+    isHalfHeart = 1;
+  }
+  if (playerHpBackup - player.hp == 0){
+    console.log("No empty containers to draw!");
+  }
+  else{
+    for (var i = 0; i < playerHpBackup - player.hp - isHalfHeart; i++){
+      ctx.drawImage(heartEmpty, (playerHpBackup + i) * 48, 1, 32, 32);
+    }
   }
 }
 
@@ -265,7 +291,6 @@ function update() {
   }
 }
 
-
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBackground();
@@ -276,6 +301,7 @@ function gameLoop() {
   else {
     update();
     drawHearts();
+    drawEmptyHearts();
     boss.draw();
     boss.drawBullets();
     player.draw();
@@ -284,7 +310,6 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
   }
 }
-
 
 var loaded = 0;
 [water_dank, playerImg_front1, babyplum_front1].forEach(img => {
