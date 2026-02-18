@@ -1,6 +1,7 @@
 import * as assets from './assets_loader.js';
-let playerHpBackup;
 
+// Had to use this because I made an infinite import loop, ui.js importing game.js and game.js improting ui.js.....
+var playerHpBackup;
 export function initUI(player) {
   playerHpBackup = player.hp;
 }
@@ -37,8 +38,13 @@ export function drawEmptyHearts(ctx, player){
     }
   }
   if (isHalfHeart == 1){
-    for (var i = 0; i < nbEmpty - player.hp / 2; i++){
-      ctx.drawImage(assets.heartEmpty, 48 * (player.hp - 1 / 2) + i * 48 , 1, 32, 32);
+    // for (var i = 0; i < nbEmpty - 1 / 2; i++){
+    //   ctx.drawImage(assets.heartEmpty, 48 * (player.hp - 1 / 2) + i * 48 , 1, 32, 32);
+    // }
+    var tempPlayerHP = ((player.hp - 1) / 2);
+    var emptyCount = (nbEmpty - 1) / 2;
+    for (var i = 0; i < emptyCount; i++){
+      ctx.drawImage(assets.heartEmpty, (tempPlayerHP + 1 + i) * 48, 1, 32, 32);
     }
     console.log("Trying to draw empty");
   }

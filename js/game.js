@@ -225,11 +225,11 @@ function gameLoop() {
 }
 
 var loaded = 0;
-[assets.water_dank, assets.playerImg_front1, assets.babyplum_front1].forEach(img => {
+[assets.playerImg_front1, assets.babyplum_front1].forEach(img => {
   img.onload = () => {
     loaded++;
     //Checks if all required images could be loaded, if not, the canvas is whitee
-    if (loaded == 3) {
+    if (loaded == 2) {
       ui.initUI(player);
       resizeCanvas();
       window.addEventListener("resize", resizeCanvas);
