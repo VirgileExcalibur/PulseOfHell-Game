@@ -1,4 +1,5 @@
 import * as assets from './assets_loader.js';
+import * as physics from './physics.js'
 import * as ui from './ui.js'
 
 const canvas = document.getElementById("game");
@@ -11,7 +12,7 @@ function resizeCanvas() {
 
 function drawBackground() {
   //CHANGE THE BACKGROUND TEXTURE HERE
-  const pattern = ctx.createPattern(assets.minecraft_Planks, "repeat");
+  const pattern = ctx.createPattern(assets.tex_minecraft_Planks, "repeat");
   ctx.fillStyle = pattern;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
@@ -19,7 +20,7 @@ function drawBackground() {
 var gameOver = false;
 var paused = false;
 
-var player_size = 96;
+const player_size = 96;
 export var player = {
   x: 0,
   y: 0,
@@ -38,41 +39,41 @@ export var player = {
   draw: function() {
         if (this.direction == "left"){
           if (this.attack == "True"){
-            ctx.drawImage(assets.playerImg_left2, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_playerImg_left2, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(assets.playerImg_left1, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_playerImg_left1, this.x, this.y, this.width, this.height);
           }
         }
         if (this.direction == "right"){
           if (this.attack == "True"){
-            ctx.drawImage(assets.playerImg_right2, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_playerImg_right2, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(assets.playerImg_right1, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_playerImg_right1, this.x, this.y, this.width, this.height);
           }
         }
         if (this.direction == "front"){
           if (this.attack == "True"){
-            ctx.drawImage(assets.playerImg_front2, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_playerImg_front2, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(assets.playerImg_front1, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_playerImg_front1, this.x, this.y, this.width, this.height);
           }
         }
         if (this.direction == "back"){
           if (this.attack == "True"){
-            ctx.drawImage(assets.playerImg_back2, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_playerImg_back2, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(assets.playerImg_back1, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_playerImg_back1, this.x, this.y, this.width, this.height);
           }
         }
   }
 };
 
-var boss_size = 192;
-var boss = {
+const boss_size = 192;
+export var boss = {
   x: (window.innerWidth - boss_size) / 2,
   y: (window.innerHeight - boss_size) / 2,
   width: boss_size,
@@ -82,7 +83,7 @@ var boss = {
   attack: "False",
   shootCooldown: 0,
   draw: function () {
-    ctx.drawImage(assets.babyplum_front1, this.x, this.y, this.width, this.height);
+    ctx.drawImage(assets.tex_babyplum_front1, this.x, this.y, this.width, this.height);
   },
   shoot: function (targetX, targetY) {
     const centerX = this.x + this.width / 2;
@@ -120,7 +121,7 @@ var boss = {
   
   drawBullets: function() {
     this.bullets.forEach(bullet => {
-      ctx.drawImage(assets.tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
+      ctx.drawImage(assets.tex_tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
     });
   }
 }
@@ -133,33 +134,7 @@ document.addEventListener('keyup', function(e) {
   keys[e.key] = false;
 });
 
-function checkCollisions() {
-  boss.bullets.forEach((bullet, index) => {
-    
-    const pLeft = player.x;
-    const pRight = player.x + player.hitbox_x;
-    const pTop = player.y;
-    const pBottom = player.y + player.hitbox_y;
-
-    const bLeft = bullet.x;
-    const bRight = bullet.x + bullet.width;
-    const bTop = bullet.y;
-    const bBottom = bullet.y + bullet.height;
-
-    const isColliding = pLeft < bRight && pRight > bLeft && pTop < bBottom && pBottom > bTop;
-
-    if (isColliding) {
-      boss.bullets.splice(index, 1);
-      player.hp -= 1; //Removes only half a heart   
-      
-      if (player.hp <= 0) {
-        player.isDead = true;
-      }
-    }
-  });
-}
-
-function update() {
+export function update() {
   if (keys['q'] && player.x > 0) {
     player.x -= player.speed;
     player.direction = "left";
@@ -204,32 +179,54 @@ function update() {
   }
 }
 
-function gameLoop() {
+export function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBackground();
-  
   if (player.gameOver == 1) {
     console.log("game over !");
   }
   else {
     update();
+    console.log("update success");
     boss.draw();
+    console.log("boss draw success");
     boss.drawBullets();
+    console.log("bullet draw success");
     player.draw();
+    console.log("player draw success");
     boss.updateBullets(); 
+    console.log("update bullets success");
     ui.drawHearts(ctx, player);
+    console.log("draw hearts success");
     ui.drawEmptyHearts(ctx, player);
-    checkCollisions();
+    console.log("draw empty hearts success");
+    physics.checkCollisions();
+    console.log("collisions check success")
     requestAnimationFrame(gameLoop);
   }
 }
 
 var loaded = 0;
-[assets.playerImg_front1, assets.babyplum_front1].forEach(img => {
+[
+  assets.tex_minecraft_Planks,
+  assets.tex_playerImg_front1,
+  assets.tex_playerImg_left1,
+  assets.tex_playerImg_right1,
+  assets.tex_playerImg_back1,
+  assets.tex_playerImg_front2,
+  assets.tex_playerImg_left2,
+  assets.tex_playerImg_right2,
+  assets.tex_playerImg_back2,
+  assets.tex_babyplum_front1,
+  assets.tex_tearBalloonBrimstone,
+  assets.tex_heartFull,
+  assets.tex_heartHalf,
+  assets.tex_heartEmpty,
+].forEach(img => {
   img.onload = () => {
     loaded++;
-    //Checks if all required images could be loaded, if not, the canvas is whitee
-    if (loaded == 2) {
+    //Checks if all required images could be loaded, if not, the canvas is white
+    if (loaded == 14) {
       ui.initUI(player);
       resizeCanvas();
       window.addEventListener("resize", resizeCanvas);

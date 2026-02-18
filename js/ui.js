@@ -12,10 +12,10 @@ export function drawHearts(ctx, player){
   }
   var tempPlayerHP = ((player.hp - 1) / 2)
   for (var i = 0; i < tempPlayerHP; i++){
-    ctx.drawImage(assets.heartFull, 1 + i * 48, 1, 32, 32);
+    ctx.drawImage(assets.tex_heartFull, 1 + i * 48, 1, 32, 32);
   }
   if (isHalfHeart == 1){
-    ctx.drawImage(assets.heartHalf, 1 + tempPlayerHP * 48, 1, 32, 32);
+    ctx.drawImage(assets.tex_heartHalf, 1 + tempPlayerHP * 48, 1, 32, 32);
   }
 }
 
@@ -25,7 +25,6 @@ export function drawEmptyHearts(ctx, player){
   
   if (player.hp % 2 == 1){
     isHalfHeart = 1;
-    console.log("Is Half" + isHalfHeart)
   }
 
   if (playerHpBackup - player.hp == 0){
@@ -33,19 +32,14 @@ export function drawEmptyHearts(ctx, player){
   }
   if (isHalfHeart != 1){
     for (var i = 0; i < nbEmpty / 2; i++){
-      console.log("draw empty heart " + i)
-      ctx.drawImage(assets.heartEmpty, 48 * (player.hp / 2) + i * 48 , 1, 32, 32);
+      ctx.drawImage(assets.tex_heartEmpty, 48 * (player.hp / 2) + i * 48 , 1, 32, 32);
     }
   }
   if (isHalfHeart == 1){
-    // for (var i = 0; i < nbEmpty - 1 / 2; i++){
-    //   ctx.drawImage(assets.heartEmpty, 48 * (player.hp - 1 / 2) + i * 48 , 1, 32, 32);
-    // }
     var tempPlayerHP = ((player.hp - 1) / 2);
     var emptyCount = (nbEmpty - 1) / 2;
     for (var i = 0; i < emptyCount; i++){
-      ctx.drawImage(assets.heartEmpty, (tempPlayerHP + 1 + i) * 48, 1, 32, 32);
+      ctx.drawImage(assets.tex_heartEmpty, (tempPlayerHP + 1 + i) * 48, 1, 32, 32);
     }
-    console.log("Trying to draw empty");
   }
 }
