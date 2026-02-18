@@ -1,75 +1,17 @@
+import * as assets from './assets_loader.js';
+import * as ui from './ui.js'
+
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-
-const img = new Image();
-img.src = "../assets/textures/background/tile_floor.png";
-
-const water_dank = new Image();
-water_dank.src = "../assets/textures/background/water_dank.png"
-
-const minecraft_Planks = new Image();
-minecraft_Planks.src = "../assets/textures/background/wood.png"
-
-const playerImg_front1 = new Image();
-playerImg_front1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_front1.png";
-
-const playerImg_left1 = new Image();
-playerImg_left1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_left1.png";
-
-const playerImg_right1 = new Image();
-playerImg_right1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_right1.png";
-
-const playerImg_back1 = new Image();
-playerImg_back1.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_back1.png";
-
-const playerImg_front2 = new Image();
-playerImg_front2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_front2.png";
-
-const playerImg_left2 = new Image();
-playerImg_left2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_left2.png";
-
-const playerImg_right2 = new Image();
-playerImg_right2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_right2.png";
-
-const playerImg_back2 = new Image();
-playerImg_back2.src = "../assets/textures/sprites/characters/baby_cheese/baby_cheese_back2.png";
-
-//Unused
-const angelstatue = new Image();
-angelstatue.src = "../assets/textures/sprites/angelstatue.png"
-
-const babyplum_front1 = new Image();
-babyplum_front1.src = "../assets/textures/sprites/bosses/babyplum/babyplum_front1.png"
-
-const tearBalloonBrimstone = new Image();
-tearBalloonBrimstone.src = "../assets/textures/effects/tears/tears_balloon_brimstone/tears_balloon_brimstone_8.png"
-
-const heartFull = new Image();
-heartFull.src = "../assets/textures/UI/container_heart/heart_full.png"
-
-const heartHalf = new Image();
-heartHalf.src = "../assets/textures/UI/container_heart/heart_half.png"
-
-const heartEmpty = new Image();
-heartEmpty.src = "../assets/textures/UI/container_heart/heart_empty.png"
-
-// tearBalloonBrimstone.onload = () => {
-//   console.log("image balle chargée");
-// };
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-
-  // boss.x = canvas.width / 2;
-  // boss.y = canvas.height / 2;
 }
-
-
 
 function drawBackground() {
   //CHANGE THE BACKGROUND TEXTURE HERE
-  const pattern = ctx.createPattern(minecraft_Planks, "repeat");
+  const pattern = ctx.createPattern(assets.minecraft_Planks, "repeat");
   ctx.fillStyle = pattern;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
@@ -78,7 +20,7 @@ var gameOver = false;
 var paused = false;
 
 var player_size = 96;
-var player = {
+export var player = {
   x: 0,
   y: 0,
   width: player_size,
@@ -96,34 +38,34 @@ var player = {
   draw: function() {
         if (this.direction == "left"){
           if (this.attack == "True"){
-            ctx.drawImage(playerImg_left2, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.playerImg_left2, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(playerImg_left1, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.playerImg_left1, this.x, this.y, this.width, this.height);
           }
         }
         if (this.direction == "right"){
           if (this.attack == "True"){
-            ctx.drawImage(playerImg_right2, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.playerImg_right2, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(playerImg_right1, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.playerImg_right1, this.x, this.y, this.width, this.height);
           }
         }
         if (this.direction == "front"){
           if (this.attack == "True"){
-            ctx.drawImage(playerImg_front2, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.playerImg_front2, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(playerImg_front1, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.playerImg_front1, this.x, this.y, this.width, this.height);
           }
         }
         if (this.direction == "back"){
           if (this.attack == "True"){
-            ctx.drawImage(playerImg_back2, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.playerImg_back2, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(playerImg_back1, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.playerImg_back1, this.x, this.y, this.width, this.height);
           }
         }
   }
@@ -140,7 +82,7 @@ var boss = {
   attack: "False",
   shootCooldown: 0,
   draw: function () {
-    ctx.drawImage(babyplum_front1, this.x, this.y, this.width, this.height);
+    ctx.drawImage(assets.babyplum_front1, this.x, this.y, this.width, this.height);
   },
   shoot: function (targetX, targetY) {
     const centerX = this.x + this.width / 2;
@@ -178,7 +120,7 @@ var boss = {
   
   drawBullets: function() {
     this.bullets.forEach(bullet => {
-      ctx.drawImage(tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
+      ctx.drawImage(assets.tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
     });
   }
 }
@@ -215,47 +157,6 @@ function checkCollisions() {
       }
     }
   });
-}
-
-
-const playerHpBackup = player.hp;
-function drawHearts(){
-  if (player.hp % 2 == 1){
-    var isHalfHeart = 1;
-  }
-  var tempPlayerHP = ((player.hp - 1) / 2)
-  for (var i = 0; i < tempPlayerHP; i++){
-    ctx.drawImage(heartFull, 1 + i * 48, 1, 32, 32);
-  }
-  if (isHalfHeart == 1){
-    ctx.drawImage(heartHalf, 1 + tempPlayerHP * 48, 1, 32, 32);
-  }
-}
-
-function drawEmptyHearts(){
-  var isHalfHeart = 0;
-  var nbEmpty = playerHpBackup - player.hp;
-  
-  if (player.hp % 2 == 1){
-    isHalfHeart = 1;
-    console.log("Is Half" + isHalfHeart)
-  }
-
-  if (playerHpBackup - player.hp == 0){
-    console.log("No empty containers to draw!");
-  }
-  if (isHalfHeart != 1){
-    for (var i = 0; i < nbEmpty / 2; i++){
-      console.log("draw empty heart " + i)
-      ctx.drawImage(heartEmpty, 48 * (player.hp / 2) + i * 48 , 1, 32, 32);
-    }
-  }
-  if (isHalfHeart == 1){
-    for (var i = 0; i < nbEmpty - player.hp / 2; i++){
-      ctx.drawImage(heartEmpty, 48 * (player.hp - 1 / 2) + i * 48 , 1, 32, 32);
-    }
-    console.log("Trying to draw empty");
-  }
 }
 
 function update() {
@@ -312,25 +213,24 @@ function gameLoop() {
   }
   else {
     update();
-    // drawHearts();
-    // drawEmptyHearts();
     boss.draw();
     boss.drawBullets();
     player.draw();
     boss.updateBullets(); 
-    drawHearts();
-    drawEmptyHearts();
+    ui.drawHearts(ctx, player);
+    ui.drawEmptyHearts(ctx, player);
     checkCollisions();
     requestAnimationFrame(gameLoop);
   }
 }
 
 var loaded = 0;
-[water_dank, playerImg_front1, babyplum_front1].forEach(img => {
+[assets.water_dank, assets.playerImg_front1, assets.babyplum_front1].forEach(img => {
   img.onload = () => {
     loaded++;
     //Checks if all required images could be loaded, if not, the canvas is whitee
     if (loaded == 3) {
+      ui.initUI(player);
       resizeCanvas();
       window.addEventListener("resize", resizeCanvas);
       gameLoop();
