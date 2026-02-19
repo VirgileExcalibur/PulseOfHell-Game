@@ -27,7 +27,7 @@ export var player = {
   width: player_size,
   height: player_size,
   speed: 5,
-  // base : 68x92
+  // base : 68x92, needs to be adjusted, it seems to big
   hitbox_x:56,
   hitbox_y:86,
   direction: "front",
@@ -72,6 +72,7 @@ export var player = {
   }
 };
 
+//The bullet starting point needs to be changed, it isn't centered on the boss position.
 const boss_size = 192;
 export var boss = {
   x: (window.innerWidth - boss_size) / 2,
@@ -180,11 +181,9 @@ export function update() {
 }
 
 export function gameLoop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //ctx.clearRect(0, 0, canvas.width, canvas.height); //NOT NEEDED
   drawBackground();
-  if (player.gameOver == 1) {
-    console.log("game over !");
-  }
+  if (player.gameOver == 1) {console.log("game over !");}
   else {
     update();
     console.log("update success");
@@ -227,10 +226,16 @@ var loaded = 0;
     loaded++;
     //Checks if all required images could be loaded, if not, the canvas is white
     if (loaded == 14) {
-      ui.initUI(player);
+      ui.initUI(player); //This needed ot the empty heart containers don't work
       resizeCanvas();
-      window.addEventListener("resize", resizeCanvas);
+      window.addEventListener("resize", resizeCanvas); //Needed if the window gets resized
       gameLoop();
     }
+    // else{
+    //   console.log("COULD NOT LOAD ALL TEXTURES!!!");
+    //   const texError = document.querySelector("h1");
+    //   texError.textContent = "COULD NOT LOAD ALL TEXTURES!!!"
+    //   document.createElement(texError);
+    // }
   };
 });
