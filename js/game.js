@@ -1,3 +1,4 @@
+//loads other files
 import * as assets from './assets_loader.js';
 import * as physics from './physics.js'
 import * as ui from './ui.js'
@@ -5,31 +6,36 @@ import * as ui from './ui.js'
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
+//fps limit
+let fps = 60;
+let fpsInterval = 1000 / fps;
+let then = Date.now();
+
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
 
 function drawBackground() {
-  //CHANGE THE BACKGROUND TEXTURE HERE
+  //CHANGE THE BACKGROUND TEXTURE HERE, WILL BE CHANGED LATER
   const pattern = ctx.createPattern(assets.tex_minecraft_Planks, "repeat");
   ctx.fillStyle = pattern;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-var gameOver = false;
+var gameOver = false; //UNUSED
 var paused = false;
 
 const player_size = 96;
 export var player = {
-  x: 0,
-  y: 0,
+  x: 50,
+  y: 50,
   width: player_size,
   height: player_size,
   speed: 5,
   // base : 68x92, needs to be adjusted, it seems to big
-  hitbox_x:56,
-  hitbox_y:86,
+  hitbox_x:40, //56
+  hitbox_y:70, //86
   direction: "front",
   // This variable will be used when the player shoots, it modifies the animation for now
   attack: "False",
@@ -181,27 +187,45 @@ export function update() {
 }
 
 export function gameLoop() {
-  //ctx.clearRect(0, 0, canvas.width, canvas.height); //NOT NEEDED
+  requestAnimationFrame(gameLoop);
+  // fps limit
+  // calculate time elapsed since last frame
+  let now = Date.now();
+  let elapsed = now - then;
+  if (elapsed > fpsInterval) {
+    then = now - (elapsed % fpsInterval);
   drawBackground();
   if (player.gameOver == 1) {console.log("game over !");}
   else {
     update();
-    console.log("update success");
     boss.draw();
-    console.log("boss draw success");
     boss.drawBullets();
-    console.log("bullet draw success");
     player.draw();
-    console.log("player draw success");
     boss.updateBullets(); 
-    console.log("update bullets success");
     ui.drawHearts(ctx, player);
-    console.log("draw hearts success");
     ui.drawEmptyHearts(ctx, player);
-    console.log("draw empty hearts success");
     physics.checkCollisions();
-    console.log("collisions check success")
     requestAnimationFrame(gameLoop);
+  }
+  // else {
+  //   update();
+  //   console.log("update success");
+  //   boss.draw();
+  //   console.log("boss draw success");
+  //   boss.drawBullets();
+  //   console.log("bullet draw success");
+  //   player.draw();
+  //   console.log("player draw success");
+  //   boss.updateBullets(); 
+  //   console.log("update bullets success");
+  //   ui.drawHearts(ctx, player);
+  //   console.log("draw hearts success");
+  //   ui.drawEmptyHearts(ctx, player);
+  //   console.log("draw empty hearts success");
+  //   physics.checkCollisions();
+  //   console.log("collisions check success")
+  //   requestAnimationFrame(gameLoop);
+  // }
   }
 }
 

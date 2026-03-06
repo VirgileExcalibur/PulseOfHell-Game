@@ -35,11 +35,30 @@ export const tex_tearBalloonBrimstone = new Image();
 tex_tearBalloonBrimstone.src = "../assets/textures/effects/tears/tears_balloon_brimstone/tears_balloon_brimstone_8.png"
 
 //UI
+//Normal Heart
 export const tex_heartFull = new Image();
 tex_heartFull.src = "../assets/textures/UI/container_heart/heart_full.png"
 
 export const tex_heartHalf = new Image();
 tex_heartHalf.src = "../assets/textures/UI/container_heart/heart_half.png"
 
+//Soul Heart
+export const tex_heart_soul_Full = new Image();
+tex_heart_soul_Full.src = "../assets/textures/UI/container_heart/heart_soul_full.png"
+
+export const tex_heart_soul_Half = new Image();
+tex_heart_soul_Half.src = "../assets/textures/UI/container_heart/heart_soul_half.png"
+
+//Black Heart
+export const tex_heart_black_Full = new Image();
+tex_heart_black_Full.src = "../assets/textures/UI/container_heart/heart_black_full.png"
+
+export const tex_heart_black_Half = new Image();
+tex_heart_black_Half.src = "../assets/textures/UI/container_heart/heart_black_half.png"
+
 export const tex_heartEmpty = new Image();
 tex_heartEmpty.src = "../assets/textures/UI/container_heart/heart_empty.png"
+
+// Replace all those separate player textures with this:
+export const tex_babyCheeseSheet = new Image();
+tex_babyCheeseSheet.src = "../assets/textures/sprites/characters/baby_cheese/302_baby_cheese.png";
