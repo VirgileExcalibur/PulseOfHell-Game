@@ -32,7 +32,7 @@ export var player = {
   y: 50,
   width: player_size,
   height: player_size,
-  speed: 5,
+  speed: 7,
   // base : 68x92, needs to be adjusted, it seems to big
   hitbox_x:40, //56
   hitbox_y:70, //86
@@ -195,7 +195,8 @@ export function gameLoop() {
   if (elapsed > fpsInterval) {
     then = now - (elapsed % fpsInterval);
   drawBackground();
-  if (player.gameOver == 1) {console.log("game over !");}
+  //paused is used here with the only intention of stopping the game, and not pausing it for now.
+  if (player.gameOver == 1 || paused) {console.log("game over !");}
   else {
     update();
     boss.draw();
