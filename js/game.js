@@ -7,7 +7,7 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
 //fps limit
-let fps = 60;
+let fps = 75;
 let fpsInterval = 1000 / fps;
 let then = Date.now();
 
@@ -24,7 +24,7 @@ function drawBackground() {
 }
 
 var gameOver = false; //UNUSED
-var paused = false;
+var stopped = false;
 
 const player_size = 96;
 export var player = {
@@ -40,7 +40,7 @@ export var player = {
   // This variable will be used when the player shoots, it modifies the animation for now
   attack: "False",
   hit: "False",
-  hp: 10,
+  hp: 10, //1 equals half a heart
   isDead: false,
   draw: function() {
         if (this.direction == "left"){
@@ -177,11 +177,11 @@ export function update() {
 
   //Pause function
   if (keys['Escape']) {
-    if (paused == 1){
-      paused = 0;
+    if (stopped == 1){
+      stopped = 0;
     }
     else{
-      paused = 1;
+      stopped = 1;
     }
   }
 }
@@ -196,7 +196,7 @@ export function gameLoop() {
     then = now - (elapsed % fpsInterval);
   drawBackground();
   //paused is used here with the only intention of stopping the game, and not pausing it for now.
-  if (player.gameOver == 1 || paused) {console.log("game over !");}
+  if (player.gameOver == 1 || stopped) {console.log("game over !");}
   else {
     update();
     boss.draw();
@@ -208,6 +208,7 @@ export function gameLoop() {
     physics.checkCollisions();
     requestAnimationFrame(gameLoop);
   }
+  // DEBUG
   // else {
   //   update();
   //   console.log("update success");
@@ -251,7 +252,7 @@ var loaded = 0;
     loaded++;
     //Checks if all required images could be loaded, if not, the canvas is white
     if (loaded == 14) {
-      ui.initUI(player); //This needed ot the empty heart containers don't work
+      ui.initUI(player); //This needed or the empty heart containers don't work
       resizeCanvas();
       window.addEventListener("resize", resizeCanvas); //Needed if the window gets resized
       gameLoop();
