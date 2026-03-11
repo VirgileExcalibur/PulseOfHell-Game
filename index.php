@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1 class="error_message"></h1>
-    <canvas id="game"></canvas>
+    <canvas id="game"> Désolé, votre navigateur ne prend pas en charge &lt;canvas&gt;. </canvas>
     <script type="module" src="js/game.js"></script>
 </body>
 </html>
