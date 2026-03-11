@@ -196,7 +196,11 @@ export function gameLoop() {
     then = now - (elapsed % fpsInterval);
   drawBackground();
   //paused is used here with the only intention of stopping the game, and not pausing it for now.
-  if (player.gameOver == 1 || stopped) {console.log("game over !");}
+  if (player.gameOver == 1 || stopped) {
+    console.log("game over !");
+    window.location.replace("../gameover.html");
+
+  }
   else {
     update();
     boss.draw();
