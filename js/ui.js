@@ -2,10 +2,22 @@ import * as assets from './assets_loader.js';
 
 const whichTex = 0; //0 for normal heart, 1 for soul heart, 2 for black heart
 // Had to use this because I made an infinite import loop, ui.js importing game.js and game.js improting ui.js.....
+
+const pxHeartSize = 48; //Unused for the moment
 var playerHpBackup;
+
 export function initUI(player) {
   playerHpBackup = player.hp;
 }
+
+//Colors need to be adjusted
+export function drawBossHPBar(ctx, player){
+      ctx.fillStyle = "rgb(255, 255, 255)";
+      ctx.fillRect(10, 50, 100 + (player.hp) * 50, 30);
+}
+
+//Will be used to make the bar white for a split second or more when the boss takes a hit
+export function animBossHPBar(ctx, boss){};
 
 export function drawHearts(ctx, player){
   if (player.hp % 2 == 1){

@@ -11,8 +11,5 @@
     <h1 class="error_message"></h1>
     <canvas id="game"></canvas>
     <script type="module" src="js/game.js"></script>
-    <?php
-        $pdo = new PDO("sqlite:database/game.db");
-    ?>
 </body>
 </html>

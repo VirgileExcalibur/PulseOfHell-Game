@@ -11,9 +11,19 @@ let fps = 75;
 let fpsInterval = 1000 / fps;
 let then = Date.now();
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+let gameID = getRandomInt(2147483647);
+console.log("Game ID is : ", gameID); //Will be used for the leaderboard table in the db
+
+const bottomBarSize = 5;
+
 function resizeCanvas() {
   canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  //Leaves a bit of space at the bottom for the score, boss hp bar
+  canvas.height = window.innerHeight - (window.innerHeight / 100 * bottomBarSize);
 }
 
 function drawBackground() {
@@ -45,34 +55,34 @@ export var player = {
   draw: function() {
         if (this.direction == "left"){
           if (this.attack == "True"){
-            ctx.drawImage(assets.tex_playerImg_left2, this.x, this.y, this.width, this.height);
+            assets.drawImagePart(ctx, assets.tex_302_baby_cheese, 896, 0, 128, 128, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(assets.tex_playerImg_left1, this.x, this.y, this.width, this.height);
+            assets.drawImagePart(ctx, assets.tex_302_baby_cheese, 768, 0, 128, 128, this.x, this.y, this.width, this.height);
           }
         }
         if (this.direction == "right"){
           if (this.attack == "True"){
-            ctx.drawImage(assets.tex_playerImg_right2, this.x, this.y, this.width, this.height);
+            assets.drawImagePart(ctx, assets.tex_302_baby_cheese, 384, 0, 128, 128, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(assets.tex_playerImg_right1, this.x, this.y, this.width, this.height);
+            assets.drawImagePart(ctx, assets.tex_302_baby_cheese, 256, 0, 128, 128, this.x, this.y, this.width, this.height);
           }
         }
         if (this.direction == "front"){
           if (this.attack == "True"){
-            ctx.drawImage(assets.tex_playerImg_front2, this.x, this.y, this.width, this.height);
+            assets.drawImagePart(ctx, assets.tex_302_baby_cheese, 128, 0, 128, 128, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(assets.tex_playerImg_front1, this.x, this.y, this.width, this.height);
+            assets.drawImagePart(ctx, assets.tex_302_baby_cheese, 0, 0, 128, 128, this.x, this.y, this.width, this.height);
           }
         }
         if (this.direction == "back"){
           if (this.attack == "True"){
-            ctx.drawImage(assets.tex_playerImg_back2, this.x, this.y, this.width, this.height);
+            assets.drawImagePart(ctx, assets.tex_302_baby_cheese, 640, 0, 128, 128, this.x, this.y, this.width, this.height);
           }
           else{
-            ctx.drawImage(assets.tex_playerImg_back1, this.x, this.y, this.width, this.height);
+            assets.drawImagePart(ctx, assets.tex_302_baby_cheese, 512, 0, 128, 128, this.x, this.y, this.width, this.height);
           }
         }
   }
@@ -82,14 +92,16 @@ export var player = {
 const boss_size = 192;
 export var boss = {
   x: (window.innerWidth - boss_size) / 2,
-  y: (window.innerHeight - boss_size) / 2,
+  y: (window.innerHeight - (window.innerHeight / 100 * bottomBarSize) - boss_size) / 2,
   width: boss_size,
   height: boss_size,
+  hp : 50,
   bullets: [],
   direction: "front",
   attack: "False",
   shootCooldown: 0,
   draw: function () {
+
     ctx.drawImage(assets.tex_babyplum_front1, this.x, this.y, this.width, this.height);
   },
   shoot: function (targetX, targetY) {
@@ -99,12 +111,12 @@ export var boss = {
     var speed = 6;
 
     this.bullets.push({
-      x: centerX,
-      y: centerY,
-      dx: Math.cos(angle) * speed,
-      dy: Math.sin(angle) * speed,
       width: 48,
       height: 48,
+      x: centerX - 24,
+      y: centerY - 24,
+      dx: Math.cos(angle) * speed,
+      dy: Math.sin(angle) * speed,
     });
   },
 
@@ -136,6 +148,9 @@ export var boss = {
 var keys = {};
 document.addEventListener('keydown', function(e) {
   keys[e.key] = true;
+  if (e.key === 'Escape') {
+    stopped = !stopped;
+  }
 });
 document.addEventListener('keyup', function(e) {
   keys[e.key] = false;
@@ -175,15 +190,6 @@ export function update() {
     player.gameOver = 1;
   }
 
-  //Pause function
-  if (keys['Escape']) {
-    if (stopped == 1){
-      stopped = 0;
-    }
-    else{
-      stopped = 1;
-    }
-  }
 }
 
 export function gameLoop() {
@@ -195,11 +201,40 @@ export function gameLoop() {
   if (elapsed > fpsInterval) {
     then = now - (elapsed % fpsInterval);
   drawBackground();
-  //paused is used here with the only intention of stopping the game, and not pausing it for now.
-  if (player.gameOver == 1 || stopped) {
-    console.log("game over !");
-    window.location.replace("../gameover.html");
-
+  //Game Over
+  if (player.gameOver == 1) {
+    boss.draw();
+    boss.drawBullets();
+    player.draw();
+    ui.drawHearts(ctx, player);
+    ui.drawEmptyHearts(ctx, player);
+    ctx.fillStyle = "rgba(0, 0, 0, 0)";
+    ctx.drawImage(assets.menuoverlay, 0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "32px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Game Over !", canvas.width / 2, canvas.height / 2);
+  }
+  //Pause
+  else if (stopped) {
+    boss.draw();
+    boss.drawBullets();
+    player.draw();
+    ui.drawHearts(ctx, player);
+    ui.drawEmptyHearts(ctx, player);
+    // ui.drawBossHPBar(ctx, player);
+    ctx.fillStyle = "rgba(0, 0, 0, 0)";
+    ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "32px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Paused", canvas.width / 2, canvas.height / 2);
+    
   }
   else {
     update();
@@ -209,8 +244,8 @@ export function gameLoop() {
     boss.updateBullets(); 
     ui.drawHearts(ctx, player);
     ui.drawEmptyHearts(ctx, player);
+    // ui.drawBossHPBar(ctx, player);
     physics.checkCollisions();
-    requestAnimationFrame(gameLoop);
   }
   // DEBUG
   // else {
@@ -246,21 +281,24 @@ var loaded = 0;
   assets.tex_playerImg_left2,
   assets.tex_playerImg_right2,
   assets.tex_playerImg_back2,
+  assets.tex_302_baby_cheese,
   assets.tex_babyplum_front1,
   assets.tex_tearBalloonBrimstone,
   assets.tex_heartFull,
   assets.tex_heartHalf,
   assets.tex_heartEmpty,
+  assets.tex_menuoverlay,
+  assets.tex_seedpaper,
 ].forEach(img => {
   img.onload = () => {
     loaded++;
     //Checks if all required images could be loaded, if not, the canvas is white
-    if (loaded == 14) {
+    if (loaded == 17) {
       ui.initUI(player); //This needed or the empty heart containers don't work
       resizeCanvas();
       window.addEventListener("resize", resizeCanvas); //Needed if the window gets resized
       gameLoop();
-    }
+    };
     // else{
     //   console.log("COULD NOT LOAD ALL TEXTURES!!!");
     //   const texError = document.querySelector("h1");
