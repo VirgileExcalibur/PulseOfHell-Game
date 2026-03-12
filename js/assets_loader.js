@@ -1,6 +1,5 @@
 export const tex_mainPlayer = new Image();
 
-// Character selector state is owned here. Other modules should use helpers below.
 const characterSprites = [
   "../assets/textures/sprites/characters/302_baby_cheese.png",
   "../assets/textures/sprites/characters/013_baby_shadow.png",

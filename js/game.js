@@ -18,6 +18,8 @@ var stopped = false;
 const animSpeed = 50;
 const bottomBarSize = 5;
 
+
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -32,7 +34,7 @@ function resizeCanvas() {
   //Leaves a bit of space at the bottom for the score, boss hp bar
   canvas.height = window.innerHeight - (window.innerHeight / 100 * bottomBarSize);
   ctx.fillStyle = "#444444";
-  ctx.fillRect(0, (canvas.height / 100) * (100-bottomBarSize), canvas.width, canvas.height);
+  ctx.fillRect(0, (canvas.height / 100) * (100 - bottomBarSize), canvas.width, canvas.height);
 }
 
 function drawBackground() {
@@ -158,18 +160,29 @@ export var boss = {
 var keys = {};
 document.addEventListener('keydown', function(e) {
   keys[e.key] = true;
-  if (e.key === 'Escape') {
-    stopped = !stopped;
-  }
-  if (e.key === 'Enter'){
-    gameLaunched = true;
-  }
+  
+  // if (e.key === 'Enter'){
+  //   gameLaunched = true;
+  // }
   if (!gameLaunched) {
     if (e.key === 'ArrowRight'){
       assets.cycleCharSel(1);
     }
     else if (e.key === 'ArrowLeft'){
       assets.cycleCharSel(-1);
+    }
+    if (e.key === 'Enter'){
+      gameLaunched = true;
+    }
+  }
+  if (gameLaunched){
+    if (e.key === 'Escape') {
+      stopped = !stopped;
+    }
+  }
+  if (gameLaunched && player.isDead){
+    if (e.key === 'Enter') {
+      this.location.reload()
     }
   }
 });
@@ -262,7 +275,7 @@ export function gameLoop() {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText("Game Over !", canvas.width / 2, canvas.height / 2);
-        ctx.fillText("Reload to play again.", canvas.width / 2, canvas.height / 2 + 50)
+        ctx.fillText("Press Enter to play again.", canvas.width / 2, canvas.height / 2 + 50)
       }
       //Pause
       else if (stopped) {
@@ -320,9 +333,59 @@ export function gameLoop() {
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
         //ctx.drawImage(assets.tex_charactermenu, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
         ctx.drawImage(assets.tex_charactermenu, 384, 30, 660, 753, canvas.width / 2 - 660 / 2, canvas.height / 2 - 753 / 2, 660, 753);
+        //baby cheese
         if (assets.charSel == 0){
           ctx.drawImage(assets.tex_baby_select, 0, 0, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
         }
+        //baby shadow
+        if (assets.charSel == 1){
+          ctx.drawImage(assets.tex_baby_select, 1664, 0, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+        }
+        //baby colorful
+        if (assets.charSel == 2){
+          ctx.drawImage(assets.tex_baby_select, 1280, 256, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+        }
+        //baby belial
+        if (assets.charSel == 3){
+          ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+        }
+        //baby video
+        if (assets.charSel == 4){
+          ctx.fillStyle = "rgba(0, 0, 0, 1)";
+          ctx.fillText("video", canvas.width / 2, canvas.height / 2)
+          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+        }
+        //baby dumb
+        if (assets.charSel == 5){
+          ctx.fillStyle = "rgba(0, 0, 0, 1)";
+          ctx.fillText("dumb", canvas.width / 2, canvas.height / 2)
+          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+        }
+        //baby dragon
+        if (assets.charSel == 6){
+          ctx.fillStyle = "rgba(0, 0, 0, 1)";
+          ctx.fillText("dragon", canvas.width / 2, canvas.height / 2)
+          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+        }
+        //baby pumpkin guy
+        if (assets.charSel == 7){
+          ctx.fillStyle = "rgba(0, 0, 0, 1)";
+          ctx.fillText("pumpkin", canvas.width / 2, canvas.height / 2)
+          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+        }
+        //baby burning
+        if (assets.charSel == 8){
+          ctx.fillStyle = "rgba(0, 0, 0, 1)";
+          ctx.fillText("burning", canvas.width / 2, canvas.height / 2)
+          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+        }
+        //baby bulb
+        if (assets.charSel == 9){
+          ctx.fillStyle = "rgba(0, 0, 0, 1)";
+          ctx.fillText("bulb", canvas.width / 2, canvas.height / 2)
+          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+        }
+
         else {
         }
         ctx.fillStyle = "#000000";
