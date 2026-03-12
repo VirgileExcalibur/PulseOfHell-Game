@@ -35,18 +35,21 @@ export function cycleCharSel(delta) {
 
 updateMainPlayerTexture();
 
+//UI
 
-//UI elements for the character selector
+export const tex_logo = new Image();
+tex_logo.src = "../assets/textures/ui/logo.png"
+
+//UI elements for the main menu
 
 export const tex_charactermenu = new Image();
 tex_charactermenu.src = "../assets/textures/ui/menu/characterSelectScreen/charactermenu.png"
 
-export const tex_baby_select = new Image();
-tex_baby_select.src = "../assets/textures/ui/menu/characterSelectScreen/baby_select.png"
+// export const tex_baby_select = new Image();
+// tex_baby_select.src = "../assets/textures/ui/menu/characterSelectScreen/baby_select.png"
 
-export const thumbPosBabySelect = {
-    0: [],
-}
+export const tex_joke = new Image();
+tex_joke.src = "../assets/textures/ui/menu/joke.png"
 
 
 //Background

@@ -244,12 +244,22 @@ export function update() {
   else {
     player.anim--;
   }
-  
-  
-
+  //moves the boss to the right place if you change the size of the window
+  boss.x = (window.innerWidth - boss_size) / 2;
+  boss.y = (window.innerHeight - (window.innerHeight / 100 * bottomBarSize) - boss_size) / 2;
 }
 
+
+
+// export function keyboardLayoutTest(){
+//   if (navigator.keyboard){
+//     const keyboard = navigator.keyboard;
+//     console.log(keyboard.getLayoutMap());
+//   }
+// }
+
 export function gameLoop() {
+  // keyboardLayoutTest();
   requestAnimationFrame(gameLoop);
   // fps limit
   // calculate time elapsed since last frame
@@ -331,71 +341,21 @@ export function gameLoop() {
     else {
         // assets.characterSelectTexLoader();
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
+        ctx.drawImage(assets.tex_logo, canvas.width / 2 - 1572 / 2, canvas.height / 2 - 109 / 2 - 500, 1572, 109);
         //ctx.drawImage(assets.tex_charactermenu, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
         ctx.drawImage(assets.tex_charactermenu, 384, 30, 660, 753, canvas.width / 2 - 660 / 2, canvas.height / 2 - 753 / 2, 660, 753);
         //baby cheese
-        if (assets.charSel == 0){
-          ctx.drawImage(assets.tex_baby_select, 0, 0, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-        //baby shadow
-        if (assets.charSel == 1){
-          ctx.drawImage(assets.tex_baby_select, 1664, 0, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-        //baby colorful
-        if (assets.charSel == 2){
-          ctx.drawImage(assets.tex_baby_select, 1280, 256, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-        //baby belial
-        if (assets.charSel == 3){
-          ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-        //baby video
-        if (assets.charSel == 4){
-          ctx.fillStyle = "rgba(0, 0, 0, 1)";
-          ctx.fillText("video", canvas.width / 2, canvas.height / 2)
-          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-        //baby dumb
-        if (assets.charSel == 5){
-          ctx.fillStyle = "rgba(0, 0, 0, 1)";
-          ctx.fillText("dumb", canvas.width / 2, canvas.height / 2)
-          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-        //baby dragon
-        if (assets.charSel == 6){
-          ctx.fillStyle = "rgba(0, 0, 0, 1)";
-          ctx.fillText("dragon", canvas.width / 2, canvas.height / 2)
-          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-        //baby pumpkin guy
-        if (assets.charSel == 7){
-          ctx.fillStyle = "rgba(0, 0, 0, 1)";
-          ctx.fillText("pumpkin", canvas.width / 2, canvas.height / 2)
-          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-        //baby burning
-        if (assets.charSel == 8){
-          ctx.fillStyle = "rgba(0, 0, 0, 1)";
-          ctx.fillText("burning", canvas.width / 2, canvas.height / 2)
-          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-        //baby bulb
-        if (assets.charSel == 9){
-          ctx.fillStyle = "rgba(0, 0, 0, 1)";
-          ctx.fillText("bulb", canvas.width / 2, canvas.height / 2)
-          // ctx.drawImage(assets.tex_baby_select, 384, 384, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        }
-
-        else {
-        }
+        ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
         ctx.fillStyle = "#000000";
         ctx.font = "32px sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText("Press enter to play.", canvas.width / 2, canvas.height / 2 + 250)
+        ctx.drawImage(assets.tex_joke, canvas.width / 2 - 223 / 2 + 225, canvas.height / 2 - 119 / 2 - 325, 223, 119);
     }
   }
 }
+
 var loaded = 0;
 [
   assets.tex_minecraft_Planks,
