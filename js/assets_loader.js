@@ -54,6 +54,9 @@ export const thumbPosBabySelect = {
 export const tex_minecraft_Planks = new Image();
 tex_minecraft_Planks.src = "../assets/textures/background/wood.png"
 
+export const tex_02_lcellarfloor = new Image();
+tex_02_lcellarfloor.src = "../assets/textures/background/02_lcellarfloor.png"
+
 //sprites
 
 //sprite sheet player

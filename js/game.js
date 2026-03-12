@@ -31,11 +31,13 @@ function resizeCanvas() {
   canvas.width = window.innerWidth;
   //Leaves a bit of space at the bottom for the score, boss hp bar
   canvas.height = window.innerHeight - (window.innerHeight / 100 * bottomBarSize);
+  ctx.fillStyle = "#444444";
+  ctx.fillRect(0, (canvas.height / 100) * (100-bottomBarSize), canvas.width, canvas.height);
 }
 
 function drawBackground() {
   //CHANGE THE BACKGROUND TEXTURE HERE, WILL BE CHANGED LATER
-  const pattern = ctx.createPattern(assets.tex_minecraft_Planks, "repeat");
+  const pattern = ctx.createPattern(assets.tex_02_lcellarfloor, "repeat");
   ctx.fillStyle = pattern;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
