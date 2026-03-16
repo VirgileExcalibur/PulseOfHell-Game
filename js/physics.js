@@ -1,12 +1,12 @@
-import { boss, player } from './game.js';
+import * as entities from './entities.js'
 
 export function checkCollisions() {
-  boss.bullets.forEach((bullet, index) => {
+  entities.boss.bullets.forEach((bullet, index) => {
     //Player hitbox
-    const pLeft = player.x;
-    const pRight = player.x + player.hitbox_x;
-    const pTop = player.y;
-    const pBottom = player.y + player.hitbox_y;
+    const pLeft = entities.player.x;
+    const pRight = entities.player.x + entities.player.hitbox_x;
+    const pTop = entities.player.y;
+    const pBottom = entities.player.y + entities.player.hitbox_y;
     //Bullet hitbox
     const bLeft = bullet.x;
     const bRight = bullet.x + bullet.width;
@@ -16,10 +16,10 @@ export function checkCollisions() {
     const isColliding = pLeft < bRight && pRight > bLeft && pTop < bBottom && pBottom > bTop;
 
     if (isColliding) {
-      boss.bullets.splice(index, 1);
-      player.hp -= 1;
-      if (player.hp <= 0) {
-        player.isDead = true;
+      entities.boss.bullets.splice(index, 1);
+      entities.player.hp -= 1;
+      if (entities.player.hp <= 0) {
+        entities.player.isDead = true;
       }
     }
   });

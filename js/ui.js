@@ -1,4 +1,8 @@
 import * as assets from './assets_loader.js';
+import * as entities from './entities.js'
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
 const whichTex = 0; //0 for normal heart, 1 for soul heart, 2 for black heart
 // Had to use this because I made an infinite import loop, ui.js importing game.js and game.js improting ui.js.....
@@ -10,11 +14,29 @@ export function initUI(player) {
   playerHpBackup = player.hp;
 }
 
-//Colors need to be adjusted
-export function drawBossHPBar(ctx, player){
-      ctx.fillStyle = "rgb(255, 255, 255)";
-      ctx.fillRect(10, 50, 100 + (player.hp) * 50, 30);
+// //Colors need to be adjusted
+// export function drawBossHPBar(ctx, player){
+//       ctx.fillStyle = "rgb(255, 255, 255)";
+//       ctx.fillRect(10, 50, 100 + (player.hp) * 50, 30);
+// }
+
+export function characterSelectScreen() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0)";
+  ctx.drawImage(assets.tex_logo, canvas.width / 2 - 1572 / 2, canvas.height / 2 - 109 / 2 - 500, 1572, 109);
+  //ctx.drawImage(assets.tex_charactermenu, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
+  ctx.drawImage(assets.tex_charactermenu, 384, 30, 660, 753, canvas.width / 2 - 660 / 2, canvas.height / 2 - 753 / 2, 660, 753);
+  //baby cheese
+  ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+  ctx.fillStyle = "#000000";
+  ctx.font = "32px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("Press enter to play.", canvas.width / 2, canvas.height / 2 + 250)
+  ctx.drawImage(assets.tex_joke, canvas.width / 2 - 223 / 2 + 225, canvas.height / 2 - 119 / 2 - 325, 223, 119);
 }
+
+export function pauseMenuScreen(){}
+
 
 //Will be used to make the bar white for a split second or more when the boss takes a hit
 export function animBossHPBar(ctx, boss){};

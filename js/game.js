@@ -2,9 +2,11 @@
 import * as assets from './assets_loader.js';
 import * as physics from './physics.js'
 import * as ui from './ui.js'
+import * as entities from './entities.js'
+import * as constants from './constants.js'
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+export const canvas = document.getElementById("game");
+export const ctx = canvas.getContext("2d");
 
 //fps limit
 let fps = 75;
@@ -15,12 +17,7 @@ let then = Date.now();
 var gameLaunched = false; //For now, it just shows you the character menu
 var gameOver = false; //UNUSED
 var stopped = false;
-const animSpeed = 50;
-const bottomBarSize = 5;
-
-
-
-function getRandomInt(max) {
+const animSpeed = 50;function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
@@ -32,9 +29,9 @@ console.log("Game ID is : ", gameID); //Will be used for the leaderboard table i
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   //Leaves a bit of space at the bottom for the score, boss hp bar
-  canvas.height = window.innerHeight - (window.innerHeight / 100 * bottomBarSize);
+  canvas.height = window.innerHeight - (window.innerHeight / 100 * constants.bottomBarSize);
   ctx.fillStyle = "#444444";
-  ctx.fillRect(0, (canvas.height / 100) * (100 - bottomBarSize), canvas.width, canvas.height);
+  ctx.fillRect(0, (canvas.height / 100) * (100 - constants.bottomBarSize), canvas.width, canvas.height);
 }
 
 function drawBackground() {
@@ -44,126 +41,13 @@ function drawBackground() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-
-
-const player_size = 96;
-export var player = {
-  x: 50,
-  y: 50,
-  width: player_size,
-  height: player_size,
-  speed: 7,
-  // base : 68x92, needs to be adjusted, it seems to big
-  hitbox_x:40, //56
-  hitbox_y:70, //86
-  direction: "front",
-  anim : 15,
-  // This variable will be used when the player shoots, it modifies the animation for now
-  attack: false,
-  hit: false,
-  hp: 10, //1 equals half a heart
-  isDead: false,
-  draw: function() {
-        if (this.direction == "left"){
-          if (this.anim > animSpeed / 2){
-            ctx.drawImage(assets.tex_mainPlayer, 896, 0, 128, 128, this.x, this.y, this.width, this.height);
-          }
-          else{
-            ctx.drawImage(assets.tex_mainPlayer, 768, 0, 128, 128, this.x, this.y, this.width, this.height);
-          }
-        }
-        if (this.direction == "right"){
-          if (this.anim > animSpeed / 2){
-            ctx.drawImage(assets.tex_mainPlayer, 384, 0, 128, 128, this.x, this.y, this.width, this.height);
-          }
-          else{
-            ctx.drawImage(assets.tex_mainPlayer, 256, 0, 128, 128, this.x, this.y, this.width, this.height);
-          }
-        }
-        if (this.direction == "front"){
-          if (this.anim > animSpeed / 2){
-            ctx.drawImage(assets.tex_mainPlayer, 128, 0, 128, 128, this.x, this.y, this.width, this.height);
-          }
-          else{
-            ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, this.x, this.y, this.width, this.height);
-          }
-        }
-        if (this.direction == "back"){
-          if (this.anim > animSpeed / 2){
-            ctx.drawImage(assets.tex_mainPlayer, 640, 0, 128, 128, this.x, this.y, this.width, this.height);
-          }
-          else{
-            ctx.drawImage(assets.tex_mainPlayer, 512, 0, 128, 128, this.x, this.y, this.width, this.height);
-          }
-        }
-  }
-};
-
 //The bullet starting point needs to be changed, it isn't centered on the boss position.
-const boss_size = 192;
-export var boss = {
-  x: (window.innerWidth - boss_size) / 2,
-  y: (window.innerHeight - (window.innerHeight / 100 * bottomBarSize) - boss_size) / 2,
-  width: boss_size,
-  height: boss_size,
-  hp : 50,
-  bullets: [],
-  direction: "front",
-  attack: false,
-  shootCooldown: 0,
-  anim: 15,
-  draw: function () {
-    // if (player.x < this.x && player.y < this.y){
-    //   ctx.drawImage
-    // }
-    if (this.anim > animSpeed / 2){
-      ctx.drawImage(assets.tex_babyplum, 192, 0, this.width, this.height, this.x, this.y, this.width, this.height);
-    }
-    else {
-      ctx.drawImage(assets.tex_babyplum, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height);
-    }
-    
-  },
-  shoot: function (targetX, targetY) {
-    const centerX = this.x + this.width / 2;
-    const centerY = this.y + this.height / 2;
-    const angle = Math.atan2(targetY - centerY, targetX - centerX);
-    var speed = 8;
-    this.bullets.push({
-      width: 48,
-      height: 48,
-      x: centerX - 24,
-      y: centerY - 24,
-      dx: Math.cos(angle) * speed,
-      dy: Math.sin(angle) * speed,
-    });
-  },
 
-  updateBullets: function() {
-    for (var i = this.bullets.length - 1; i >= 0; i--) {
-      var bullet = this.bullets[i];
-      bullet.x += bullet.dx;
-      bullet.y += bullet.dy;
-      if (bullet.x < 0 || bullet.x > canvas.width || bullet.y < 0 || bullet.y > canvas.height) {
-        this.bullets.splice(i, 1);
-      }
-    }
-  },
-  
-  drawBullets: function() {
-    this.bullets.forEach(bullet => {
-      ctx.drawImage(assets.tex_tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
-    });
-  }
-}
+
 
 var keys = {};
 document.addEventListener('keydown', function(e) {
   keys[e.key] = true;
-  
-  // if (e.key === 'Enter'){
-  //   gameLaunched = true;
-  // }
   if (!gameLaunched) {
     if (e.key === 'ArrowRight'){
       assets.cycleCharSel(1);
@@ -180,7 +64,7 @@ document.addEventListener('keydown', function(e) {
       stopped = !stopped;
     }
   }
-  if (gameLaunched && player.isDead){
+  if (gameLaunched && entities.player.isDead){
     if (e.key === 'Enter') {
       this.location.reload()
     }
@@ -203,50 +87,50 @@ document.addEventListener("visibilitychange", (event) => {
 });
 
 export function update() {
-  if (keys['q'] && player.x > 0) {
-    player.x -= player.speed;
-    player.direction = "left";
+  if (keys['q'] && entities.player.x > 0) {
+    entities.player.x -= entities.player.speed;
+    entities.player.direction = "left";
   };
-  if (keys['d'] && player.x + player.width < canvas.width) {
-    player.x += player.speed;
-    player.direction = "right";
+  if (keys['d'] && entities.player.x + entities.player.width < canvas.width) {
+    entities.player.x += entities.player.speed;
+    entities.player.direction = "right";
   };
-  if (keys['z'] && player.y > 0) {
-    player.y -= player.speed;
-    player.direction = "back";
+  if (keys['z'] && entities.player.y > 0) {
+    entities.player.y -= entities.player.speed;
+    entities.player.direction = "back";
   };
-  if (keys['s'] && player.y + player.height < canvas.height) {
-    player.y += player.speed;
-    player.direction = "front";
+  if (keys['s'] && entities.player.y + entities.player.height < canvas.height) {
+    entities.player.y += entities.player.speed;
+    entities.player.direction = "front";
   };
   //Need to add player attack keys here, should be arrows or IJKL
-  if (boss.shootCooldown <= 0) {
+  if (entities.boss.shootCooldown <= 0) {
     const spreadX = (Math.random() - 0.5) * 275;
     const spreadY = (Math.random() - 0.5) * 275;
     //boss.shoot(player.x + player.width + Math.random (7,15) / 2, player.y + player.height + Math.random(7,15)/ 2); 
-    boss.shoot(player.x + spreadX + Math.random(5,15), player.y + spreadY + Math.random(5,15)); 
-    boss.shootCooldown = 14; 
+    entities.boss.shoot(entities.player.x + spreadX + Math.random(5,15), entities.player.y + spreadY + Math.random(5,15)); 
+    entities.boss.shootCooldown = 14; 
   }
   else {
-      boss.shootCooldown--;
+      entities.boss.shootCooldown--;
   }
-  boss.updateBullets();
+  entities.boss.updateBullets();
   //Animation framing
-  if(boss.anim <= 0){
-    boss.anim = animSpeed; //Adjust this variable 
+  if(entities.boss.anim <= 0){
+    entities.boss.anim = animSpeed; //Adjust this variable 
   }
   else {
-    boss.anim--;
+    entities.boss.anim--;
   }
-  if(player.anim <= 0){
-    player.anim = animSpeed;
+  if(entities.player.anim <= 0){
+    entities.player.anim = animSpeed;
   }
   else {
-    player.anim--;
+    entities.player.anim--;
   }
   //moves the boss to the right place if you change the size of the window
-  boss.x = (window.innerWidth - boss_size) / 2;
-  boss.y = (window.innerHeight - (window.innerHeight / 100 * bottomBarSize) - boss_size) / 2;
+  entities.boss.x = (window.innerWidth - entities.boss_size) / 2;
+  entities.boss.y = (window.innerHeight - (window.innerHeight / 100 * constants.bottomBarSize) - entities.boss_size) / 2;
 }
 
 
@@ -270,12 +154,12 @@ export function gameLoop() {
     drawBackground();
     if (gameLaunched) {
       //Game Over
-      if (player.isDead == 1) {
-        boss.draw();
-        boss.drawBullets();
-        player.draw();
-        ui.drawHearts(ctx, player);
-        ui.drawEmptyHearts(ctx, player);
+      if (entities.player.isDead == 1) {
+        entities.boss.draw();
+        entities.boss.drawBullets();
+        entities.player.draw();
+        ui.drawHearts(ctx, entities.player);
+        ui.drawEmptyHearts(ctx, entities.player);
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height);
         ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
@@ -289,11 +173,11 @@ export function gameLoop() {
       }
       //Pause
       else if (stopped) {
-        boss.draw();
-        boss.drawBullets();
-        player.draw();
-        ui.drawHearts(ctx, player);
-        ui.drawEmptyHearts(ctx, player);
+        entities.boss.draw();
+        entities.boss.drawBullets();
+        entities.player.draw();
+        ui.drawHearts(ctx, entities.player);
+        ui.drawEmptyHearts(ctx, entities.player);
         // ui.drawBossHPBar(ctx, player);
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
         ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height);
@@ -308,12 +192,12 @@ export function gameLoop() {
       }
       else {
         update();
-        boss.draw();
-        boss.drawBullets();
-        player.draw();
-        boss.updateBullets(); 
-        ui.drawHearts(ctx, player);
-        ui.drawEmptyHearts(ctx, player);
+        entities.boss.draw();
+        entities.boss.drawBullets();
+        entities.player.draw();
+        entities.boss.updateBullets(); 
+        ui.drawHearts(ctx, entities.player);
+        ui.drawEmptyHearts(ctx, entities.player);
         // ui.drawBossHPBar(ctx, player);
         physics.checkCollisions();
       }
@@ -339,19 +223,9 @@ export function gameLoop() {
       // }
       }
     else {
-        // assets.characterSelectTexLoader();
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
-        ctx.drawImage(assets.tex_logo, canvas.width / 2 - 1572 / 2, canvas.height / 2 - 109 / 2 - 500, 1572, 109);
-        //ctx.drawImage(assets.tex_charactermenu, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
-        ctx.drawImage(assets.tex_charactermenu, 384, 30, 660, 753, canvas.width / 2 - 660 / 2, canvas.height / 2 - 753 / 2, 660, 753);
-        //baby cheese
-        ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
-        ctx.fillStyle = "#000000";
-        ctx.font = "32px sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("Press enter to play.", canvas.width / 2, canvas.height / 2 + 250)
-        ctx.drawImage(assets.tex_joke, canvas.width / 2 - 223 / 2 + 225, canvas.height / 2 - 119 / 2 - 325, 223, 119);
+      ui.characterSelectScreen();
+      //EVERYTHING IN HERE NEEDS TO BE TRANSFERED TO ui.js, AND ALSO SCALED TO THE RIGHT SCREEN SIZE
+      // assets.characterSelectTexLoader()
     }
   }
 }
@@ -381,7 +255,7 @@ var loaded = 0;
     loaded++;
     //Checks if all required images could be loaded, if not, the canvas is white
     if (loaded == 10) {
-      ui.initUI(player); //This needed or the empty heart containers don't work
+      ui.initUI(entities.player); //This needed or the empty heart containers don't work
       resizeCanvas();
       window.addEventListener("resize", resizeCanvas); //Needed if the window gets resized
       gameLoop();
