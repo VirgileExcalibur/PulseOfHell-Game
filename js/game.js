@@ -3,7 +3,7 @@ import * as assets from './assets_loader.js';
 import * as physics from './physics.js'
 import * as ui from './ui.js'
 import * as entities from './entities.js'
-import * as constants from './constants.js'
+import * as tunables from './tunables.js'
 
 export const canvas = document.getElementById("game");
 export const ctx = canvas.getContext("2d");
@@ -29,9 +29,9 @@ console.log("Game ID is : ", gameID); //Will be used for the leaderboard table i
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   //Leaves a bit of space at the bottom for the score, boss hp bar
-  canvas.height = window.innerHeight - (window.innerHeight / 100 * constants.bottomBarSize);
+  canvas.height = window.innerHeight - (window.innerHeight / 100 * tunables.bottomBarSize);
   ctx.fillStyle = "#444444";
-  ctx.fillRect(0, (canvas.height / 100) * (100 - constants.bottomBarSize), canvas.width, canvas.height);
+  ctx.fillRect(0, (canvas.height / 100) * (100 - tunables.bottomBarSize), canvas.width, canvas.height);
 }
 
 function drawBackground() {
@@ -130,7 +130,7 @@ export function update() {
   }
   //moves the boss to the right place if you change the size of the window
   entities.boss.x = (window.innerWidth - entities.boss_size) / 2;
-  entities.boss.y = (window.innerHeight - (window.innerHeight / 100 * constants.bottomBarSize) - entities.boss_size) / 2;
+  entities.boss.y = (window.innerHeight - (window.innerHeight / 100 * tunables.bottomBarSize) - entities.boss_size) / 2;
 }
 
 
@@ -155,42 +155,14 @@ export function gameLoop() {
     if (gameLaunched) {
       //Game Over
       if (entities.player.isDead == 1) {
-        entities.boss.draw();
-        entities.boss.drawBullets();
-        entities.player.draw();
-        ui.drawHearts(ctx, entities.player);
-        ui.drawEmptyHearts(ctx, entities.player);
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
-        ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height);
-        ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "32px sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("Game Over !", canvas.width / 2, canvas.height / 2);
-        ctx.fillText("Press Enter to play again.", canvas.width / 2, canvas.height / 2 + 50)
+        ui.gameOverScreen();
       }
       //Pause
       else if (stopped) {
-        entities.boss.draw();
-        entities.boss.drawBullets();
-        entities.player.draw();
-        ui.drawHearts(ctx, entities.player);
-        ui.drawEmptyHearts(ctx, entities.player);
-        // ui.drawBossHPBar(ctx, player);
-        ctx.fillStyle = "rgba(0, 0, 0, 0)";
-        ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height);
-        ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "32px sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("Paused", canvas.width / 2, canvas.height / 2);
-        ctx.fillText("Press ESC to continue.", canvas.width / 2, canvas.height / 2 + 50)
+        ui.pauseMenuScreen();
       }
       else {
+        //main loop
         update();
         entities.boss.draw();
         entities.boss.drawBullets();
@@ -201,31 +173,9 @@ export function gameLoop() {
         // ui.drawBossHPBar(ctx, player);
         physics.checkCollisions();
       }
-      // DEBUG
-      // else {
-      //   update();
-      //   console.log("update success");
-      //   boss.draw();
-      //   console.log("boss draw success");
-      //   boss.drawBullets();
-      //   console.log("bullet draw success");
-      //   player.draw();
-      //   console.log("player draw success");
-      //   boss.updateBullets(); 
-      //   console.log("update bullets success");
-      //   ui.drawHearts(ctx, player);
-      //   console.log("draw hearts success");
-      //   ui.drawEmptyHearts(ctx, player);
-      //   console.log("draw empty hearts success");
-      //   physics.checkCollisions();
-      //   console.log("collisions check success")
-      //   requestAnimationFrame(gameLoop);
-      // }
-      }
+    }
     else {
       ui.characterSelectScreen();
-      //EVERYTHING IN HERE NEEDS TO BE TRANSFERED TO ui.js, AND ALSO SCALED TO THE RIGHT SCREEN SIZE
-      // assets.characterSelectTexLoader()
     }
   }
 }

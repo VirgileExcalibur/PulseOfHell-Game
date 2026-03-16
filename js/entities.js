@@ -1,5 +1,5 @@
 import * as assets from './assets_loader.js';
-import * as constants from './constants.js'
+import * as tunables from './tunables.js'
 import { canvas, ctx} from './game.js';
 
 const animSpeed = 50;
@@ -61,7 +61,7 @@ export var player = {
 export const boss_size = 192;
 export var boss = {
   x: (window.innerWidth - boss_size) / 2,
-  y: (window.innerHeight - (window.innerHeight / 100 * constants.bottomBarSize) - boss_size) / 2,
+  y: (window.innerHeight - (window.innerHeight / 100 * tunables.bottomBarSize) - boss_size) / 2,
   width: boss_size,
   height: boss_size,
   hp : 50,
