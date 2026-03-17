@@ -1,4 +1,4 @@
-import * as assets from './assets_loader.js';
+import * as assets from './assetsloader.js';
 import * as tunables from './tunables.js'
 import { canvas, ctx } from './game.js';
 
@@ -70,6 +70,7 @@ export var boss = {
   attack: false,
   shootCooldown: 0,
   anim: 15,
+  isDead: false,
   draw: function () {
     // if (player.x < this.x && player.y < this.y){
     //   ctx.drawImage
@@ -80,7 +81,6 @@ export var boss = {
     else {
       ctx.drawImage(assets.tex_babyplum, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height);
     }
-    
   },
   shoot: function (targetX, targetY) {
     const centerX = this.x + this.width / 2;

@@ -1,5 +1,5 @@
 //loads other files
-import * as assets from './assets_loader.js';
+import * as assets from './assetsloader.js';
 import * as physics from './physics.js'
 import * as ui from './ui.js'
 import * as entities from './entities.js'
@@ -14,17 +14,22 @@ let fpsInterval = 1000 / fps;
 let then = Date.now();
 
 //GLBOAL
-var gameLaunched = false; //For now, it just shows you the character menu
-var gameOver = false; //UNUSED
-var stopped = false;
-const animSpeed = 50;function getRandomInt(max) {
+let gameLaunched = false; //For now, it just shows you the character menu
+let gameOver = false; //UNUSED
+let stopped = false;
+let sentLeaderboardResult = false;
+let score = 0;
+
+let DEBUG = false;
+
+const animSpeed = 50;
+
+function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
 let gameID = getRandomInt(2147483647);
 console.log("Game ID is : ", gameID); //Will be used for the leaderboard table in the db
-
-
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -41,10 +46,6 @@ function drawBackground() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-//The bullet starting point needs to be changed, it isn't centered on the boss position.
-
-
-
 var keys = {};
 document.addEventListener('keydown', function(e) {
   keys[e.key] = true;
@@ -57,6 +58,9 @@ document.addEventListener('keydown', function(e) {
     }
     if (e.key === 'Enter'){
       gameLaunched = true;
+    }
+    if (e.key === 'A'){
+      DEBUG = true;
     }
   }
   if (gameLaunched){
@@ -133,8 +137,6 @@ export function update() {
   entities.boss.y = (window.innerHeight - (window.innerHeight / 100 * tunables.bottomBarSize) - entities.boss_size) / 2;
 }
 
-
-
 // export function keyboardLayoutTest(){
 //   if (navigator.keyboard){
 //     const keyboard = navigator.keyboard;
@@ -154,7 +156,12 @@ export function gameLoop() {
     drawBackground();
     if (gameLaunched) {
       //Game Over
-      if (entities.player.isDead == 1) {
+      if (entities.player.isDead || entities.boss.isDead) {
+        if (!sentLeaderboardResult){
+          fetch(`http://localhost:5000/php/script.php?gameID=${gameID}&score=${score}`);
+          console.log("Score : ", score);
+          sentLeaderboardResult = true;
+        };
         ui.gameOverScreen();
       }
       //Pause
@@ -181,8 +188,7 @@ export function gameLoop() {
 }
 
 var loaded = 0;
-var gameStarted = false;
-const requiredTextures = [
+[
   assets.tex_minecraft_Planks,
   // assets.tex_playerImg_front1,
   // assets.tex_playerImg_left1,
@@ -201,28 +207,21 @@ const requiredTextures = [
   assets.tex_heartEmpty,
   assets.tex_menuoverlay,
   assets.tex_seedpaper,
-  assets.tex_logo50,
-  assets.tex_charactermenu,
-  assets.tex_joke,
-];
-
-function markTextureLoaded() {
-  loaded++;
-  //Checks if all required images could be loaded, if not, the canvas is white
-  if (!gameStarted && loaded == requiredTextures.length) {
-    gameStarted = true;
-    ui.initUI(entities.player); //This needed or the empty heart containers don't work
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas); //Needed if the window gets resized
-    gameLoop();
-  }
-}
-
-requiredTextures.forEach(img => {
-  if (img.complete && img.naturalWidth > 0) {
-    markTextureLoaded();
-  }
-  else {
-    img.onload = markTextureLoaded;
-  }
+].forEach(img => {
+  img.onload = () => {
+    loaded++;
+    //Checks if all required images could be loaded, if not, the canvas is white
+    if (loaded == 10) {
+      ui.initUI(entities.player); //This needed or the empty heart containers don't work
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas); //Needed if the window gets resized
+      gameLoop();
+    };
+    // else{
+    //   console.log("COULD NOT LOAD ALL TEXTURES!!!");
+    //   const texError = document.querySelector("h1");
+    //   texError.textContent = "COULD NOT LOAD ALL TEXTURES!!!"
+    //   document.createElement(texError);
+    // }
+  };
 });
