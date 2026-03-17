@@ -13,14 +13,12 @@ let fps = 75;
 let fpsInterval = 1000 / fps;
 let then = Date.now();
 
-//GLBOAL
+//GLOBAL
 let gameLaunched = false; //For now, it just shows you the character menu
 let gameOver = false; //UNUSED
 let stopped = false;
 let sentLeaderboardResult = false;
 let score = 0;
-
-let DEBUG = false;
 
 const animSpeed = 50;
 
@@ -58,9 +56,6 @@ document.addEventListener('keydown', function(e) {
     }
     if (e.key === 'Enter'){
       gameLaunched = true;
-    }
-    if (e.key === 'A'){
-      DEBUG = true;
     }
   }
   if (gameLaunched){
@@ -158,6 +153,7 @@ export function gameLoop() {
       //Game Over
       if (entities.player.isDead || entities.boss.isDead) {
         if (!sentLeaderboardResult){
+          // calcScore();
           fetch(`http://localhost:5000/php/script.php?gameID=${gameID}&score=${score}`);
           console.log("Score : ", score);
           sentLeaderboardResult = true;
