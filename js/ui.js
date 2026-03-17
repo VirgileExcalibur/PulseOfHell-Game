@@ -23,10 +23,15 @@ export function initUI(player) {
 
 export function characterSelectScreen() {
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
-  ctx.drawImage(assets.tex_logo, canvas.width / 2 - 1572 / 2, canvas.height / 2 - 109 / 2 - 500, 1572, 109);
+  //Testing image automatic scaling
+  const logoBaseW = 786;
+  const logoBaseH = 55;
+  const menuScale = Math.min(canvas.width / logoBaseW, canvas.height / logoBaseH);
+  var displayMiddleW = display.width / 2;
+  var displayMiddleH = display.height / 2;
+  ctx.drawImage(assets.tex_logo, canvas.width / 2 - 786 / 2, canvas.height / 2 - 55 / 2 - 400, 786, 55);
   //ctx.drawImage(assets.tex_charactermenu, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
   ctx.drawImage(assets.tex_charactermenu, 384, 30, 660, 753, canvas.width / 2 - 660 / 2, canvas.height / 2 - 753 / 2, 660, 753);
-  //baby cheese
   ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
   ctx.fillStyle = "#000000";
   ctx.font = "32px sans-serif";

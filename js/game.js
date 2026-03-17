@@ -181,7 +181,8 @@ export function gameLoop() {
 }
 
 var loaded = 0;
-[
+var gameStarted = false;
+const requiredTextures = [
   assets.tex_minecraft_Planks,
   // assets.tex_playerImg_front1,
   // assets.tex_playerImg_left1,
@@ -200,21 +201,28 @@ var loaded = 0;
   assets.tex_heartEmpty,
   assets.tex_menuoverlay,
   assets.tex_seedpaper,
-].forEach(img => {
-  img.onload = () => {
-    loaded++;
-    //Checks if all required images could be loaded, if not, the canvas is white
-    if (loaded == 10) {
-      ui.initUI(entities.player); //This needed or the empty heart containers don't work
-      resizeCanvas();
-      window.addEventListener("resize", resizeCanvas); //Needed if the window gets resized
-      gameLoop();
-    };
-    // else{
-    //   console.log("COULD NOT LOAD ALL TEXTURES!!!");
-    //   const texError = document.querySelector("h1");
-    //   texError.textContent = "COULD NOT LOAD ALL TEXTURES!!!"
-    //   document.createElement(texError);
-    // }
-  };
+  assets.tex_logo50,
+  assets.tex_charactermenu,
+  assets.tex_joke,
+];
+
+function markTextureLoaded() {
+  loaded++;
+  //Checks if all required images could be loaded, if not, the canvas is white
+  if (!gameStarted && loaded == requiredTextures.length) {
+    gameStarted = true;
+    ui.initUI(entities.player); //This needed or the empty heart containers don't work
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas); //Needed if the window gets resized
+    gameLoop();
+  }
+}
+
+requiredTextures.forEach(img => {
+  if (img.complete && img.naturalWidth > 0) {
+    markTextureLoaded();
+  }
+  else {
+    img.onload = markTextureLoaded;
+  }
 });

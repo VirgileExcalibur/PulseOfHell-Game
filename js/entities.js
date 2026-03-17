@@ -1,6 +1,6 @@
 import * as assets from './assets_loader.js';
 import * as tunables from './tunables.js'
-import { canvas, ctx} from './game.js';
+import { canvas, ctx } from './game.js';
 
 const animSpeed = 50;
 

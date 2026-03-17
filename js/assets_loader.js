@@ -42,10 +42,12 @@ export function cycleCharSel(delta) {
 updateMainPlayerTexture();
 
 
-
 //UI
 export const tex_logo = new Image();
 tex_logo.src = "../assets/textures/ui/logo.png"
+
+export const tex_logo50 = new Image();
+tex_logo50.src = "../assets/textures/ui/logo_50.png"
 
 //Heart selection
 if (tunables.whichTex == 0){
@@ -110,4 +112,3 @@ tex_seedpaper.src = "../assets/textures/ui/menu/seedpaper.png"
 // Replace all those separate player textures with this:
 export const tex_babyCheeseSheet = new Image();
 tex_babyCheeseSheet.src = "../assets/textures/sprites/characters/baby_cheese/302_baby_cheese.png";
-
