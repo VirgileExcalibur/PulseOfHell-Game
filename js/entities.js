@@ -19,7 +19,7 @@ export var player = {
   // This variable will be used when the player shoots, it modifies the animation for now
   attack: false,
   hit: false,
-  hp: 1, //1 equals half a heart
+  hp: 10, //1 equals half a heart
   isDead: false,
   draw: function() {
         if (this.direction == "left"){

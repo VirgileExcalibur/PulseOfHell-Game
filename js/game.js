@@ -4,6 +4,7 @@ import * as physics from './physics.js'
 import * as ui from './ui.js'
 import * as entities from './entities.js'
 import * as tunables from './tunables.js'
+import * as leaderboard from './leaderboard.js'
 
 export const canvas = document.getElementById("game");
 export const ctx = canvas.getContext("2d");
@@ -153,7 +154,7 @@ export function gameLoop() {
       //Game Over
       if (entities.player.isDead || entities.boss.isDead) {
         if (!sentLeaderboardResult){
-          // calcScore();
+          score = leaderboard.calcScore(then);
           fetch(`http://localhost:5000/php/script.php?gameID=${gameID}&score=${score}`);
           console.log("Score : ", score);
           sentLeaderboardResult = true;
