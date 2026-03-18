@@ -24,34 +24,34 @@ export var player = {
   draw: function() {
         if (this.direction == "left"){
           if (this.anim > animSpeed / 2){
-            ctx.drawImage(assets.tex_mainPlayer, 896, 0, 128, 128, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_mainPlayer, 896, 0, 128, 128, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
           }
           else{
-            ctx.drawImage(assets.tex_mainPlayer, 768, 0, 128, 128, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_mainPlayer, 768, 0, 128, 128, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
           }
         }
         if (this.direction == "right"){
           if (this.anim > animSpeed / 2){
-            ctx.drawImage(assets.tex_mainPlayer, 384, 0, 128, 128, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_mainPlayer, 384, 0, 128, 128, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
           }
           else{
-            ctx.drawImage(assets.tex_mainPlayer, 256, 0, 128, 128, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_mainPlayer, 256, 0, 128, 128, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
           }
         }
         if (this.direction == "front"){
           if (this.anim > animSpeed / 2){
-            ctx.drawImage(assets.tex_mainPlayer, 128, 0, 128, 128, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_mainPlayer, 128, 0, 128, 128, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
           }
           else{
-            ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
           }
         }
         if (this.direction == "back"){
           if (this.anim > animSpeed / 2){
-            ctx.drawImage(assets.tex_mainPlayer, 640, 0, 128, 128, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_mainPlayer, 640, 0, 128, 128, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
           }
           else{
-            ctx.drawImage(assets.tex_mainPlayer, 512, 0, 128, 128, this.x, this.y, this.width, this.height);
+            ctx.drawImage(assets.tex_mainPlayer, 512, 0, 128, 128, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
           }
         }
   }
@@ -76,10 +76,10 @@ export var boss = {
     //   ctx.drawImage
     // }
     if (this.anim > animSpeed / 2){
-      ctx.drawImage(assets.tex_babyplum, 192, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+      ctx.drawImage(assets.tex_babyplum, 192, 0, this.width, this.height, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
     }
     else {
-      ctx.drawImage(assets.tex_babyplum, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+      ctx.drawImage(assets.tex_babyplum, 0, 0, this.width, this.height, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
     }
   },
   shoot: function (targetX, targetY) {
@@ -94,6 +94,7 @@ export var boss = {
       y: centerY - 24,
       dx: Math.cos(angle) * speed,
       dy: Math.sin(angle) * speed,
+      animState: 0,
     });
   },
 
@@ -111,6 +112,9 @@ export var boss = {
   drawBullets: function() {
     this.bullets.forEach(bullet => {
       ctx.drawImage(assets.tex_tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
+      // if (bullet.animState = 0){
+      //   ctx.drawImage(assets.tex_tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
+      // }
     });
   }
 }
