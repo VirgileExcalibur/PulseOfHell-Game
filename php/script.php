@@ -8,7 +8,7 @@
     $gameID = $_GET['gameID'];
     $score = $_GET['score'];
 
-    $db->exec("INSERT INTO scores (gameID, score) VALUES ($gameID, $score)");
+    $db->exec("INSERT INTO scores (gameID, score, time) VALUES ($gameID, $score, 0)");
 
     $result = $db->query('SELECT * FROM scores');
 ?>

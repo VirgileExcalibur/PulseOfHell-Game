@@ -11,24 +11,19 @@ export function initUI(player) {
   playerHpBackup = player.hp;
 }
 
+//TODO
 export function characterSelectScreen() {
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
-  //Testing image automatic scaling
-  // const logoBaseW = 786;
-  // const logoBaseH = 55;
-  // const menuScale = Math.min(canvas.width / logoBaseW, canvas.height / logoBaseH);
-  // var displayMiddleW = display.width / 2;
-  // var displayMiddleH = display.height / 2;
-  ctx.drawImage(assets.tex_logo, canvas.width / 2 - 786 / 2, canvas.height / 2 - 55 / 2 - 400, 786, 55);
+  ctx.drawImage(assets.tex_logo, canvas.width / 2 - (768 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (55 / (window.devicePixelRatio || 1)) / 2 - 400 /(window.devicePixelRatio ||1), 786 / (window.devicePixelRatio || 1), 55 / (window.devicePixelRatio || 1));
   //ctx.drawImage(assets.tex_charactermenu, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
-  ctx.drawImage(assets.tex_charactermenu, 384, 30, 660, 753, canvas.width / 2 - 660 / 2, canvas.height / 2 - 753 / 2, 660, 753);
-  ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, canvas.width / 2 - 128 / 2, canvas.height / 2 - 128 / 2, 128, 128);
+  ctx.drawImage(assets.tex_charactermenu, 384, 30, 660, 753, canvas.width / 2 - (660 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (753 / (window.devicePixelRatio || 1)) / 2, 660 / (window.devicePixelRatio || 1), 753 / (window.devicePixelRatio || 1));
+  ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, canvas.width / 2 - (128 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (128 / (window.devicePixelRatio || 1)) / 2, 128 / (window.devicePixelRatio || 1), 128 / (window.devicePixelRatio || 1));
   ctx.fillStyle = "#000000";
   ctx.font = "32px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("Press enter to play.", canvas.width / 2, canvas.height / 2 + 250)
-  ctx.drawImage(assets.tex_joke, canvas.width / 2 - 223 / 2 + 225, canvas.height / 2 - 119 / 2 - 325, 223, 119);
+  ctx.drawImage(assets.tex_joke, canvas.width / 2 - (223 / (window.devicePixelRatio || 1)) / 2 - 223 / 2 + (335 / window.devicePixelRatio || 1), canvas.height / 2 - (119 / (window.devicePixelRatio || 1)) / 2 - (325 / (window.devicePixelRatio || 1)), 223 / (window.devicePixelRatio || 1), 119 / (window.devicePixelRatio)); //Needs to be scaled properly, won't be easy...
 }
 
 export function pauseMenuScreen(){

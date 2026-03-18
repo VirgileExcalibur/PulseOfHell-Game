@@ -8,6 +8,7 @@ import * as leaderboard from './leaderboard.js'
 
 export const canvas = document.getElementById("game");
 export const ctx = canvas.getContext("2d");
+ctx.imageSmoothingEnabled = false;
 
 //fps limit
 let fps = 75;
@@ -187,14 +188,6 @@ export function gameLoop() {
 var loaded = 0;
 [
   assets.tex_minecraft_Planks,
-  // assets.tex_playerImg_front1,
-  // assets.tex_playerImg_left1,
-  // assets.tex_playerImg_right1,
-  // assets.tex_playerImg_back1,
-  // assets.tex_playerImg_front2,
-  // assets.tex_playerImg_left2,
-  // assets.tex_playerImg_right2,
-  // assets.tex_playerImg_back2,
   assets.tex_302_baby_cheese,
   assets.tex_mainPlayer,
   assets.tex_babyplum,
