@@ -88,10 +88,10 @@ export var boss = {
     const angle = Math.atan2(targetY - centerY, targetX - centerX);
     var speed = 8;
     this.bullets.push({
-      width: 48,
-      height: 48,
-      x: centerX - 24,
-      y: centerY - 24,
+      width: 32,
+      height: 32,
+      x: centerX - 16,
+      y: centerY - 16,
       dx: Math.cos(angle) * speed,
       dy: Math.sin(angle) * speed,
       animState: 0,
@@ -111,10 +111,8 @@ export var boss = {
   
   drawBullets: function() {
     this.bullets.forEach(bullet => {
-      ctx.drawImage(assets.tex_tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
-      // if (bullet.animState = 0){
-      //   ctx.drawImage(assets.tex_tearBalloonBrimstone, bullet.x, bullet.y, bullet.width, bullet.height);
-      // }
+      ctx.drawImage(assets.tex_tearBalloonBrimstone_8, bullet.x, bullet.y, bullet.width, bullet.height);
+      // ctx.drawImage(assets.tex_tearBalloonBrimstone, 0, 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
     });
   }
 }

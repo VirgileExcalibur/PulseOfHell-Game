@@ -41,7 +41,7 @@ function resizeCanvas() {
 
 function drawBackground() {
   //CHANGE THE BACKGROUND TEXTURE HERE, WILL BE CHANGED LATER
-  const pattern = ctx.createPattern(assets.tex_02_lcellarfloor, "repeat");
+  const pattern = ctx.createPattern(assets.tex_effect_darkroom, "repeat");
   ctx.fillStyle = pattern;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }

@@ -19,7 +19,7 @@ const characterSprites = [
   "../assets/textures/sprites/characters/484_baby_bulb.png",
 ];
 
-export let charSel = 0;
+export let charSel = 7;
 
 function updateMainPlayerTexture() {
   tex_mainPlayer.src = characterSprites[charSel];
@@ -77,13 +77,21 @@ tex_joke.src = "../assets/textures/ui/menu/joke.png"
 
 
 //Background
+export const tex_tile_floor = new Image();
+tex_tile_floor.src = "../assets/textures/background/tile_floor.png"
+
 export const tex_minecraft_Planks = new Image();
 tex_minecraft_Planks.src = "../assets/textures/background/wood.png"
 
 export const tex_02_lcellarfloor = new Image();
 tex_02_lcellarfloor.src = "../assets/textures/background/02_lcellarfloor.png"
 
-//sprites
+export const tex_0b_shop_nfloor = new Image();
+tex_0b_shop_nfloor.src = "../assets/textures/background/0b_shop_nfloor.png"
+
+export const tex_effect_darkroom = new Image();
+tex_effect_darkroom.src = "../assets/textures/background/effect_darkroom.png"
+
 
 //sprite sheet player
 export const tex_302_baby_cheese = new Image();
@@ -95,9 +103,10 @@ tex_babyplum.src = "../assets/textures/sprites/bosses/babyplum/babyplum.png"
 
 //effects
 export const tex_tearBalloonBrimstone = new Image();
-tex_tearBalloonBrimstone.src = "../assets/textures/effects/tears/tears_balloon_brimstone/tears_balloon_brimstone_8.png"
+tex_tearBalloonBrimstone.src = "../assets/textures/effects/tears/tears_balloon_brimstone.png"
 
-
+export const tex_tearBalloonBrimstone_8 = new Image();
+tex_tearBalloonBrimstone_8.src = "../assets/textures/effects/tears/tears_balloon_brimstone/tears_balloon_brimstone_8.png"
 
 export const tex_heartEmpty = new Image();
 tex_heartEmpty.src = "../assets/textures/ui/container_heart/heart_empty.png"

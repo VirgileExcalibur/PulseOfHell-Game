@@ -11,10 +11,10 @@ export function initUI(player) {
   playerHpBackup = player.hp;
 }
 
-//TODO
 export function characterSelectScreen() {
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
-  ctx.drawImage(assets.tex_logo, canvas.width / 2 - (768 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (55 / (window.devicePixelRatio || 1)) / 2 - 400 /(window.devicePixelRatio ||1), 786 / (window.devicePixelRatio || 1), 55 / (window.devicePixelRatio || 1));
+  ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height); //shouldn't be scaled
+  ctx.drawImage(assets.tex_logo, canvas.width / 2 - (768 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (55 / (window.devicePixelRatio || 1)) / 2 - 420 /(window.devicePixelRatio ||1), 786 / (window.devicePixelRatio || 1), 55 / (window.devicePixelRatio || 1));
   //ctx.drawImage(assets.tex_charactermenu, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
   ctx.drawImage(assets.tex_charactermenu, 384, 30, 660, 753, canvas.width / 2 - (660 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (753 / (window.devicePixelRatio || 1)) / 2, 660 / (window.devicePixelRatio || 1), 753 / (window.devicePixelRatio || 1));
   ctx.drawImage(assets.tex_mainPlayer, 0, 0, 128, 128, canvas.width / 2 - (128 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (128 / (window.devicePixelRatio || 1)) / 2, 128 / (window.devicePixelRatio || 1), 128 / (window.devicePixelRatio || 1));
@@ -23,7 +23,7 @@ export function characterSelectScreen() {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("Press enter to play.", canvas.width / 2, canvas.height / 2 + 250)
-  ctx.drawImage(assets.tex_joke, canvas.width / 2 - (223 / (window.devicePixelRatio || 1)) / 2 - 223 / 2 + (335 / window.devicePixelRatio || 1), canvas.height / 2 - (119 / (window.devicePixelRatio || 1)) / 2 - (325 / (window.devicePixelRatio || 1)), 223 / (window.devicePixelRatio || 1), 119 / (window.devicePixelRatio)); //Needs to be scaled properly, won't be easy...
+  //ctx.drawImage(assets.tex_joke, canvas.width / 2 - (223 / (window.devicePixelRatio || 1)) / 2 - 223 / 2 + (335 / window.devicePixelRatio || 1), canvas.height / 2 - (119 / (window.devicePixelRatio || 1)) / 2 - (325 / (window.devicePixelRatio || 1)), 223 / (window.devicePixelRatio || 1), 119 / (window.devicePixelRatio)); //Needs to be scaled properly, won't be easy...
 }
 
 export function pauseMenuScreen(){
@@ -33,8 +33,8 @@ export function pauseMenuScreen(){
   drawHearts(ctx, entities.player);
   drawEmptyHearts(ctx, entities.player);
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
-  ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height);
-  ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
+  ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height); //shouldn't be scaled
+  ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - ( 455 / (window.devicePixelRatio || 1))/ 2, canvas.height / 2 - (315 / (window.devicePixelRatio || 1))/ 2, 455 / (window.devicePixelRatio || 1), 315 / (window.devicePixelRatio || 1));
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#ffffff";
   ctx.font = "32px sans-serif";
@@ -52,7 +52,7 @@ export function gameOverScreen(){
   drawEmptyHearts(ctx, entities.player);
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
   ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height);
-  ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - 455 / 2, canvas.height / 2 - 315 / 2, 455, 315);
+  ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - (455 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (315 / (window.devicePixelRatio || 1)) / 2, 455 / (window.devicePixelRatio || 1), 315 / (window.devicePixelRatio || 1));
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#ffffff";
   ctx.font = "32px sans-serif";
