@@ -102,8 +102,8 @@ export const tex_babyplum = new Image();
 tex_babyplum.src = "../assets/textures/sprites/bosses/babyplum/babyplum.png"
 
 //effects
-export const tex_tearBalloonBrimstone = new Image();
-tex_tearBalloonBrimstone.src = "../assets/textures/effects/tears/tears_balloon_brimstone.png"
+export const tex_tear = new Image();
+tex_tear.src = "../assets/textures/effects/tears/tears_multidimensional.png"
 
 export const tex_tearBalloonBrimstone_8 = new Image();
 tex_tearBalloonBrimstone_8.src = "../assets/textures/effects/tears/tears_balloon_brimstone/tears_balloon_brimstone_8.png"

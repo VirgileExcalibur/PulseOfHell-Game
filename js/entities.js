@@ -12,8 +12,8 @@ export var player = {
   height: player_size,
   speed: 7,
   // base : 68x92, needs to be adjusted, it seems to big
-  hitbox_x:40, //56
-  hitbox_y:70, //86
+  hitbox_x:64, //56
+  hitbox_y:88, //86
   direction: "front",
   anim : 15,
   // This variable will be used when the player shoots, it modifies the animation for now
@@ -93,7 +93,7 @@ export var boss = {
       dy: Math.sin(angle) * speed,
       animState: 0,
       animState2: 0,
-      animWait: 50,
+      animWait: tunables.animSpeed,
     });
   },
 
@@ -102,9 +102,6 @@ export var boss = {
       var bullet = this.bullets[i];
       bullet.x += bullet.dx;
       bullet.y += bullet.dy;
-      if (bullet.animState < 12){
-        bullet.animState += 1;
-      };
       if (bullet.x < 0 || bullet.x > canvas.width || bullet.y < 0 || bullet.y > canvas.height) {
         this.bullets.splice(i, 1);
       }
@@ -115,24 +112,34 @@ export var boss = {
     for (var i = this.bullets.length - 1; i >= 0; i--) {
       var bullet = this.bullets[i];
       if (bullet.animWait != 0){
-        if (bullet.animState == 7 ){
-          ctx.drawImage(assets.tex_tearBalloonBrimstone, 32 * (bullet.animState % 8), 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
+        if (bullet.animState == 7 && bullet.animState2 == 0){
+          ctx.drawImage(assets.tex_tear, 32 * (bullet.animState % 8), bullet.animState2, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
           bullet.animWait--;
+          bullet.animState = 0;
+          bullet.animState2 = 32;
+        }
+        if (bullet.animState == 4 && bullet.animState2 == 32){
+          ctx.drawImage(assets.tex_tear, 32 * (bullet.animState % 8), bullet.animState2, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
         }
         else{
-          ctx.drawImage(assets.tex_tearBalloonBrimstone, 32 * (bullet.animState % 8), 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
+          ctx.drawImage(assets.tex_tear, 32 * (bullet.animState % 8), bullet.animState2, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
           bullet.animState++;
         }
         
       }
       else{
-        bullet.animWait == 50;
-        if (bullet.animState == 7){
-          ctx.drawImage(assets.tex_tearBalloonBrimstone, 32 * (bullet.animState % 8), 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
+        bullet.animWait = tunables.animSpeed;
+        if (bullet.animState == 7 && bullet.animState2 == 0){
+          ctx.drawImage(assets.tex_tear, 32 * (bullet.animState % 8), bullet.animState2, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
           bullet.animWait--;
+          bullet.animState = 0;
+          bullet.animState2 = 32;
+        }
+        if (bullet.animState == 4 && bullet.animState2 == 32){
+          ctx.drawImage(assets.tex_tear, 32 * (bullet.animState % 8), bullet.animState2, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
         }
         else{
-          ctx.drawImage(assets.tex_tearBalloonBrimstone, 32 * (bullet.animState % 8), 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
+          ctx.drawImage(assets.tex_tear, 32 * (bullet.animState % 8), bullet.animState2, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
           bullet.animState++;
         }
       }

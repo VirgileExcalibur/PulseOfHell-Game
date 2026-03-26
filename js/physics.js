@@ -3,10 +3,12 @@ import * as entities from './entities.js'
 export function checkCollisions() {
   entities.boss.bullets.forEach((bullet, index) => {
     //Player hitbox
-    const pLeft = entities.player.x;
-    const pRight = entities.player.x + entities.player.hitbox_x;
-    const pTop = entities.player.y;
-    const pBottom = entities.player.y + entities.player.hitbox_y;
+    const playerHitboxOffsetX = (entities.player.width - entities.player.hitbox_x) / 2;
+    const playerHitboxOffsetY = (entities.player.height - entities.player.hitbox_y) / 2;
+    const pLeft = entities.player.x + playerHitboxOffsetX;
+    const pRight = pLeft + entities.player.hitbox_x;
+    const pTop = entities.player.y + playerHitboxOffsetY;
+    const pBottom = pTop + entities.player.hitbox_y;
     //Bullet hitbox
     const bLeft = bullet.x;
     const bRight = bullet.x + bullet.width;

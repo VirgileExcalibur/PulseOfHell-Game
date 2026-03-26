@@ -12,7 +12,7 @@ export const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
 
 //fps limit
-let fps = 75;
+let fps = 60;
 let fpsInterval = 1000 / fps;
 let then = Date.now();
 
@@ -22,8 +22,6 @@ let gameOver = false; //UNUSED
 let stopped = false;
 let sentLeaderboardResult = false;
 export let score = 0;
-
-const animSpeed = 50;
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -120,13 +118,13 @@ export function update() {
   entities.boss.updateBullets();
   //Animation framing
   if(entities.boss.anim <= 0){
-    entities.boss.anim = animSpeed; //Adjust this variable 
+    entities.boss.anim = tunables.animSpeed; //Adjust this variable 
   }
   else {
     entities.boss.anim--;
   }
   if(entities.player.anim <= 0){
-    entities.player.anim = animSpeed;
+    entities.player.anim = tunables.animSpeed;
   }
   else {
     entities.player.anim--;
@@ -193,7 +191,7 @@ var loaded = 0;
   assets.tex_302_baby_cheese,
   assets.tex_mainPlayer,
   assets.tex_babyplum,
-  assets.tex_tearBalloonBrimstone,
+  assets.tex_tear,
   assets.tex_heartFull,
   assets.tex_heartHalf,
   assets.tex_heartEmpty,
