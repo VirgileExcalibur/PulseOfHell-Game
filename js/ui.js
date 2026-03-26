@@ -1,6 +1,7 @@
 import * as assets from './assetsloader.js';
 import * as tunables from './tunables.js';
-import * as entities from './entities.js'
+import * as entities from './entities.js';
+import { score } from './game.js';
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -58,7 +59,8 @@ export function gameOverScreen(){
   ctx.font = "32px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("Game Over !", canvas.width / 2, canvas.height / 2);
+  ctx.fillText("Game Over !", canvas.width / 2, canvas.height / 2 - 50);
+  ctx.fillText("Score : " + score , canvas.width / 2, canvas.height / 2)
   ctx.fillText("Press Enter to play again.", canvas.width / 2, canvas.height / 2 + 50)
 }
 

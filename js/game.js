@@ -8,6 +8,7 @@ import * as leaderboard from './leaderboard.js'
 
 export const canvas = document.getElementById("game");
 export const ctx = canvas.getContext("2d");
+//Required for the textures to be displayed correctly on any display res (not looking blurry when zooming out for exaple)
 ctx.imageSmoothingEnabled = false;
 
 //fps limit
@@ -20,7 +21,7 @@ let gameLaunched = false; //For now, it just shows you the character menu
 let gameOver = false; //UNUSED
 let stopped = false;
 let sentLeaderboardResult = false;
-let score = 0;
+export let score = 0;
 
 const animSpeed = 50;
 
@@ -28,8 +29,9 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+//Used for the DB
 let gameID = getRandomInt(2147483647);
-console.log("Game ID is : ", gameID); //Will be used for the leaderboard table in the db
+console.log("Game ID is : ", gameID);
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;

@@ -72,9 +72,6 @@ export var boss = {
   anim: 15,
   isDead: false,
   draw: function () {
-    // if (player.x < this.x && player.y < this.y){
-    //   ctx.drawImage
-    // }
     if (this.anim > animSpeed / 2){
       ctx.drawImage(assets.tex_babyplum, 192, 0, this.width, this.height, this.x, this.y, this.width / (window.devicePixelRatio || 1), this.height / (window.devicePixelRatio || 1));
     }
@@ -95,6 +92,8 @@ export var boss = {
       dx: Math.cos(angle) * speed,
       dy: Math.sin(angle) * speed,
       animState: 0,
+      animState2: 0,
+      animWait: 50,
     });
   },
 
@@ -103,6 +102,9 @@ export var boss = {
       var bullet = this.bullets[i];
       bullet.x += bullet.dx;
       bullet.y += bullet.dy;
+      if (bullet.animState < 12){
+        bullet.animState += 1;
+      };
       if (bullet.x < 0 || bullet.x > canvas.width || bullet.y < 0 || bullet.y > canvas.height) {
         this.bullets.splice(i, 1);
       }
@@ -110,9 +112,30 @@ export var boss = {
   },
   
   drawBullets: function() {
-    this.bullets.forEach(bullet => {
-      ctx.drawImage(assets.tex_tearBalloonBrimstone_8, bullet.x, bullet.y, bullet.width, bullet.height);
-      // ctx.drawImage(assets.tex_tearBalloonBrimstone, 0, 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
-    });
+    for (var i = this.bullets.length - 1; i >= 0; i--) {
+      var bullet = this.bullets[i];
+      if (bullet.animWait != 0){
+        if (bullet.animState == 7 ){
+          ctx.drawImage(assets.tex_tearBalloonBrimstone, 32 * (bullet.animState % 8), 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
+          bullet.animWait--;
+        }
+        else{
+          ctx.drawImage(assets.tex_tearBalloonBrimstone, 32 * (bullet.animState % 8), 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
+          bullet.animState++;
+        }
+        
+      }
+      else{
+        bullet.animWait == 50;
+        if (bullet.animState == 7){
+          ctx.drawImage(assets.tex_tearBalloonBrimstone, 32 * (bullet.animState % 8), 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
+          bullet.animWait--;
+        }
+        else{
+          ctx.drawImage(assets.tex_tearBalloonBrimstone, 32 * (bullet.animState % 8), 0, 32, 32, bullet.x, bullet.y, bullet.width / (window.devicePixelRatio || 1), bullet.height / (window.devicePixelRatio || 1));
+          bullet.animState++;
+        }
+      }
+    }
   }
 }
