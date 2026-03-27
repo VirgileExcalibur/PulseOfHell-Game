@@ -74,7 +74,7 @@ export function gameOverScreen(){
   else{
     ctx.textAlign = "left";
     ctx.font = "22px 'Font_soulsV2_Body-Regular'";
-    ctx.fillText("Last 10 Scores", canvas.width / 2 + 200, canvas.height / 2 - 150);
+    ctx.fillText("Best 10 Scores", canvas.width / 2 + 200, canvas.height / 2 - 150);
     for (let i = 0; i < 10 && i < leaderboard.cachedScores.length; i++){
       ctx.fillText((i + 1) + ". " + leaderboard.cachedScores[i].score, canvas.width / 2 + 200, canvas.height / 2 - 110 + i * 28);
     }

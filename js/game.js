@@ -1,3 +1,4 @@
+//WARNING ! les extensions pdo_sqlite et sqlite3 doivent être activés dans la configuration php pour que le backend php fonctionne (sinon ça fonctionne aussi, mais pas de leaderboard par contre :( ).
 //loads other files
 import * as assets from './assetsloader.js';
 import * as physics from './physics.js'
@@ -5,6 +6,8 @@ import * as ui from './ui.js'
 import * as entities from './entities.js'
 import * as tunables from './tunables.js'
 import * as leaderboard from './leaderboard.js'
+
+console.log("Dégage de la ! Sauf si tu est Geoffroy");
 
 export const canvas = document.getElementById("game");
 export const ctx = canvas.getContext("2d");

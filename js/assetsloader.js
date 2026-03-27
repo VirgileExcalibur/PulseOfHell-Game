@@ -76,6 +76,7 @@ tex_charactermenu.src = "../assets/textures/ui/menu/characterSelectScreen/charac
 // export const tex_baby_select = new Image();
 // tex_baby_select.src = "../assets/textures/ui/menu/characterSelectScreen/baby_select.png"
 
+// UNUSED, couldn't be seen with the current background choice
 export const tex_joke = new Image();
 tex_joke.src = "../assets/textures/ui/menu/joke.png"
 
