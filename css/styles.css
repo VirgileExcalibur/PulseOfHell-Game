@@ -15,3 +15,16 @@ body {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
+
+@font-face {
+  font-family: 'upheavtt';
+  src: url('../assets/fonts/upheavtt.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Font_soulsV2_Body-Regular';
+  src: url('../assets/fonts/Font_soulsV2_Body-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Font_soulsV2_Title-Regular';
+  src: url('../assets/fonts/Font_soulsV2_Title-Regular.ttf') format('truetype');
+}

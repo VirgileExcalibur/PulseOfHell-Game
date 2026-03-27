@@ -141,7 +141,8 @@ export function update() {
 //   }
 // }
 
-export function gameLoop() {
+export async function gameLoop() {
+  await document.fonts.load("32px 'upheavtt'", "32px 'Font_soulsV2_Body-Regular'", "32px 'Font_soulsV2_Title-Regular'");
   // keyboardLayoutTest();
   requestAnimationFrame(gameLoop);
   // fps limit
