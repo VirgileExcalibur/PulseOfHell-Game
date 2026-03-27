@@ -17,10 +17,6 @@ export async function loadLeaderboardOnce() {
     return cachedScores;
 }
 
-
-
-// export async function submitScore(gameID, score) {
-//   const res = await fetch(`/php/script.php?gameID=${gameID}&score=${score}`);
-//   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-//   return res.json(); // updated leaderboard
-// }
+export async function sortLeaderboard(){
+    cachedScores.sort().reverse();
+}

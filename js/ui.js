@@ -50,6 +50,7 @@ export function pauseMenuScreen(){
 export function gameOverScreen(){
   if (leaderboard.cachedScores == null){
     leaderboard.loadLeaderboardOnce();
+    leaderboard.sortLeaderboard();
   }
   entities.boss.draw();
   entities.boss.drawBullets();
@@ -58,20 +59,25 @@ export function gameOverScreen(){
   drawEmptyHearts(ctx, entities.player);
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
   ctx.drawImage(assets.tex_menuoverlay, 0, 0, canvas.width, canvas.height);
-  ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - (455*1.5 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (315*1.5 / (window.devicePixelRatio || 1)) / 2, 455 * 1.5 / (window.devicePixelRatio || 1), 315 * 1.5 / (window.devicePixelRatio || 1));
+  ctx.drawImage(assets.tex_seedpaper, canvas.width / 2 - (455*2 / (window.devicePixelRatio || 1)) / 2, canvas.height / 2 - (315*2 / (window.devicePixelRatio || 1)) / 2, 455 * 2 / (window.devicePixelRatio || 1), 315 * 2 / (window.devicePixelRatio || 1));
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#000000";
   ctx.font = "32px 'Font_soulsV2_Body-Regular'";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("Game Over !", canvas.width / 2, canvas.height / 2 - 50);
-  ctx.fillText("Score : " + score , canvas.width / 2, canvas.height / 2);
-  ctx.fillText("Press Enter to play again.", canvas.width / 2, canvas.height / 2 + 50);
+  ctx.fillText("Game Over !", canvas.width / 2 - 100, canvas.height / 2 - 50);
+  ctx.fillText("Score : " + score , canvas.width / 2 - 100, canvas.height / 2);
+  ctx.fillText("Press Enter to play again.", canvas.width / 2 - 100, canvas.height / 2 + 50);
   if (leaderboard.cachedScores == null){
-    //ctx.fillText("leaderboard is empty !", canvas.width / 2 + 400, canvas.height / 2);
+    ctx.fillText("Loading leaderboard...", canvas.width / 2 + 260, canvas.height / 2 - 120);
   }
   else{
-    //ctx.fillText(leaderboard.cachedScores[0], canvas.width / 2 + 200, canvas.height / 2);
+    ctx.textAlign = "left";
+    ctx.font = "22px 'Font_soulsV2_Body-Regular'";
+    ctx.fillText("Last 10 Scores", canvas.width / 2 + 200, canvas.height / 2 - 150);
+    for (let i = 0; i < 10 && i < leaderboard.cachedScores.length; i++){
+      ctx.fillText((i + 1) + ". " + leaderboard.cachedScores[i].score, canvas.width / 2 + 200, canvas.height / 2 - 110 + i * 28);
+    }
   }
   
 }

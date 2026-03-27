@@ -17,6 +17,10 @@ const characterSprites = [
   "../assets/textures/sprites/characters/457_baby_pumpkin_guy.png",
   "../assets/textures/sprites/characters/467_baby_burning.png",
   "../assets/textures/sprites/characters/484_baby_bulb.png",
+  "../assets/textures/sprites/characters/179_baby_piecea.png",
+  "../assets/textures/sprites/characters/180_baby_pieceb.png",
+  "../assets/textures/sprites/characters/312_baby_sword.png",
+  "../assets/textures/sprites/characters/369_baby_scaredghost.png",
 ];
 
 export let charSel = 7;
