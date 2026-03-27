@@ -1,6 +1,7 @@
 import * as assets from './assetsloader.js';
 import * as tunables from './tunables.js';
 import * as entities from './entities.js';
+import * as leaderboard from './leaderboard.js'
 import { score } from './game.js';
 
 const canvas = document.getElementById("game");
@@ -42,10 +43,13 @@ export function pauseMenuScreen(){
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("Paused", canvas.width / 2, canvas.height / 2);
-  ctx.fillText("Press ESC to continue.", canvas.width / 2, canvas.height / 2 + 50)
+  ctx.fillText("Press ESC to continue.", canvas.width / 2, canvas.height / 2 + 50);
 }
 
 export function gameOverScreen(){
+  if (leaderboard.cachedScores == null){
+    leaderboard.loadLeaderboardOnce();
+  }
   entities.boss.draw();
   entities.boss.drawBullets();
   entities.player.draw();
@@ -60,8 +64,15 @@ export function gameOverScreen(){
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("Game Over !", canvas.width / 2, canvas.height / 2 - 50);
-  ctx.fillText("Score : " + score , canvas.width / 2, canvas.height / 2)
-  ctx.fillText("Press Enter to play again.", canvas.width / 2, canvas.height / 2 + 50)
+  ctx.fillText("Score : " + score , canvas.width / 2, canvas.height / 2);
+  ctx.fillText("Press Enter to play again.", canvas.width / 2, canvas.height / 2 + 50);
+  if (leaderboard.cachedScores == null){
+    ctx.fillText("leaderboard is empty !", canvas.width / 2 + 400, canvas.height / 2);
+  }
+  else{
+    ctx.fillText(leaderboard.cachedScores[0], canvas.width / 2 + 200, canvas.height / 2);
+  }
+  
 }
 
 export function drawHearts(ctx, player){
