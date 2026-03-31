@@ -50,7 +50,9 @@ export function pauseMenuScreen(){
 export function gameOverScreen(){
   if (leaderboard.cachedScores == null){
     leaderboard.loadLeaderboardOnce();
-    leaderboard.sortLeaderboard();
+    if (leaderboard.cachedScores != null){
+      leaderboard.sortLeaderboard();
+    }
   }
   entities.boss.draw();
   entities.boss.drawBullets();

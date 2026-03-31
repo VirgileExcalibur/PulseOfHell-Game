@@ -162,7 +162,8 @@ export async function gameLoop() {
         if (!sentLeaderboardResult){
           score = leaderboard.calcScore(then);
           fetch(`http://localhost:5000/php/script.php?gameID=${gameID}&score=${score}`);
-          console.log("Score : ", score);
+          //DEBUG ONLY
+          //console.log("Score : ", score);
           sentLeaderboardResult = true;
         };
         ui.gameOverScreen();
