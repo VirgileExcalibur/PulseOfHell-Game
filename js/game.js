@@ -32,7 +32,8 @@ function getRandomInt(max) {
 
 //Used for the DB
 let gameID = getRandomInt(2147483647);
-console.log("Game ID is : ", gameID);
+//DEBUG ONLY
+//console.log("Game ID is : ", gameID);
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
